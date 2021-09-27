@@ -5,6 +5,7 @@ import java.util.List;
 import com.ahirajustice.app.exceptions.ForbiddenException;
 import com.ahirajustice.app.exceptions.NotFoundException;
 import com.ahirajustice.app.services.permission.IPermissionService;
+import com.ahirajustice.app.viewmodels.error.ErrorResponse;
 import com.ahirajustice.app.viewmodels.permission.PermissionViewModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Permissions")
 @RestController
 @RequestMapping("api/permissions")
 public class PermissionsController {
@@ -22,6 +33,12 @@ public class PermissionsController {
     @Autowired
     IPermissionService permissionService;
 
+    @Operation(summary = "Get Permissions", security = { @SecurityRequirement(name = "bearer") })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PermissionViewModel.class))) }),
+            @ApiResponse(responseCode = "403", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
     @RequestMapping(path = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<PermissionViewModel> getPermissions() throws ForbiddenException {
@@ -29,6 +46,14 @@ public class PermissionsController {
         return permissions;
     }
 
+    @Operation(summary = "Get Permission", security = { @SecurityRequirement(name = "bearer") })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = PermissionViewModel.class)) }),
+            @ApiResponse(responseCode = "403", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public PermissionViewModel getPermission(@PathVariable long id) throws NotFoundException, ForbiddenException {
