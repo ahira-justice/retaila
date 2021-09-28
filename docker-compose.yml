@@ -1,0 +1,9 @@
+version: "3.4"
+
+services:
+  retail:
+    container_name: retail
+    image: ${DOCKER_REGISTRY-}retail:latest
+    build:
+      context: .
+      dockerfile: ./Dockerfile
