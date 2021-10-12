@@ -34,3 +34,4 @@ build/
 .env
 .dockerenv
 flyway.conf
+.java-version
