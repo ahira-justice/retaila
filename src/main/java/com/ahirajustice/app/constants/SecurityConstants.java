@@ -16,4 +16,13 @@ public class SecurityConstants {
         "/api/retail/**, GET"
     };
 
+    public static final String[] EXCLUDE_FROM_REQUEST_RESPONSE_LOGGER = new String[] { 
+        "/, GET",
+        "/api/auth/login, POST", 
+        "/api/users, POST",
+        "/api/retail/docs, GET",
+        "/api/retail/docs.yaml, GET",
+        "/api/retail/**, GET"
+    };
+
 }
