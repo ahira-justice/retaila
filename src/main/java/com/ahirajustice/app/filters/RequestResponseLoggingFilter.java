@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ahirajustice.app.constants.SecurityConstants;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -39,19 +41,31 @@ public class RequestResponseLoggingFilter extends GenericFilterBean{
         logResponse(request, response, processTime);
     }
 
-    private void logRequest(HttpServletRequest request) {
+    private void logRequest(HttpServletRequest request) throws IOException {
+        String msg = "";
+
         if (!excludeFromRequestResponseLogger(request.getRequestURI(), request.getMethod())) {
-            String msg = String.format("Running request '%s > %s'", request.getMethod(), request.getRequestURI());
+            msg = String.format("Running request '%s > %s'", request.getMethod(), request.getRequestURI());
             log.info(msg);
+
+            if (HttpMethod.POST.matches(request.getMethod()) || HttpMethod.PUT.matches(request.getMethod())){
+                String requestBody = IOUtils.toString(request.getReader());
+                
+                msg = String.format("Request body '%s'", requestBody);
+                log.info(msg);
+            }
         }
     }
 
     private void logResponse(HttpServletRequest request, HttpServletResponse response, double processTime) {
+        String msg = "";
+
         if (!excludeFromRequestResponseLogger(request.getRequestURI(), request.getMethod())) {
-            String msg = String.format("Finished running request '%s > %s' in %f ms", request.getMethod(), request.getRequestURI(), processTime);
+            msg = String.format("Finished running request '%s > %s' in %f ms", request.getMethod(), request.getRequestURI(), processTime);
             log.info(msg);
 
-            log.info(String.format("Response Status Code: %d", response.getStatus()));
+            msg = String.format("Response Status Code: %d", response.getStatus());
+            log.info(msg);
         }
     }
 
