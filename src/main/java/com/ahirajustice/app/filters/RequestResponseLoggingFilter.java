@@ -51,7 +51,7 @@ public class RequestResponseLoggingFilter extends GenericFilterBean{
             String msg = String.format("Finished running request '%s > %s' in %f ms", request.getMethod(), request.getRequestURI(), processTime);
             log.info(msg);
 
-            logger.info(String.format("Response Status Code: %d", response.getStatus()));
+            log.info(String.format("Response Status Code: %d", response.getStatus()));
         }
     }
 
