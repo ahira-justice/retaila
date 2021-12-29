@@ -1,11 +1,5 @@
 package com.ahirajustice.app.services.user;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.ahirajustice.app.config.AppConfig;
 import com.ahirajustice.app.constants.SecurityConstants;
 import com.ahirajustice.app.dtos.user.UserCreateDto;
@@ -16,39 +10,33 @@ import com.ahirajustice.app.enums.Roles;
 import com.ahirajustice.app.exceptions.BadRequestException;
 import com.ahirajustice.app.exceptions.ForbiddenException;
 import com.ahirajustice.app.exceptions.NotFoundException;
+import com.ahirajustice.app.mappings.user.UserMappings;
 import com.ahirajustice.app.repositories.IRoleRepository;
 import com.ahirajustice.app.repositories.IUserRepository;
 import com.ahirajustice.app.security.PermissionsProvider;
 import com.ahirajustice.app.services.permission.IPermissionValidatorService;
 import com.ahirajustice.app.viewmodels.user.UserViewModel;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.jsonwebtoken.Jwts;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import io.jsonwebtoken.Jwts;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements IUserService {
 
-    @Autowired
-    AppConfig appConfig;
-
-    @Autowired
-    HttpServletRequest request;
-
-    @Autowired
-    IUserRepository userRepository;
-
-    @Autowired
-    IRoleRepository roleRepository;
-
-    @Autowired
-    IPermissionValidatorService permissionValidatorService;
-
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+    private final AppConfig appConfig;
+    private final HttpServletRequest request;
+    private final IUserRepository userRepository;
+    private final IRoleRepository roleRepository;
+    private final IPermissionValidatorService permissionValidatorService;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserMappings mappings;
 
     @Override
     public List<UserViewModel> getUsers() throws ForbiddenException {
@@ -56,15 +44,12 @@ public class UserService implements IUserService {
             throw new ForbiddenException();
         }
 
-        List<UserViewModel> responses = new ArrayList<UserViewModel>();
+        List<UserViewModel> responses = new ArrayList<>();
 
         Iterable<User> users = userRepository.findAll();
 
         for (User user : users) {
-            UserViewModel response = new UserViewModel();
-            BeanUtils.copyProperties(user, response);
-            response.setRole(user.getRole().getName());
-            responses.add(response);
+            responses.add(mappings.userToUserViewModel(user));
         }
 
         return responses;
@@ -76,18 +61,13 @@ public class UserService implements IUserService {
             throw new ForbiddenException();
         }
 
-        UserViewModel response = new UserViewModel();
-
         Optional<User> userExists = userRepository.findByEmail(email);
 
         if (!userExists.isPresent()) {
             throw new NotFoundException(String.format("User with email: '%s' does not exist", email));
         }
 
-        BeanUtils.copyProperties(userExists.get(), response);
-        response.setRole(userExists.get().getRole().getName());
-
-        return response;
+        return mappings.userToUserViewModel(userExists.get());
     }
 
     @Override
@@ -96,45 +76,33 @@ public class UserService implements IUserService {
             throw new ForbiddenException();
         }
 
-        UserViewModel response = new UserViewModel();
-
         Optional<User> userExists = userRepository.findById(id);
 
         if (!userExists.isPresent()) {
             throw new NotFoundException(String.format("User with id: '%d' does not exist", id));
         }
 
-        BeanUtils.copyProperties(userExists.get(), response);
-        response.setRole(userExists.get().getRole().getName());
-
-        return response;
+        return mappings.userToUserViewModel(userExists.get());
     }
 
     @Override
     public UserViewModel createUser(UserCreateDto userDto) throws BadRequestException {
-        UserViewModel response = new UserViewModel();
-
-        User user = new User();
-
         Optional<User> userExists = userRepository.findByEmail(userDto.getEmail());
 
         if (userExists.isPresent()) {
             throw new BadRequestException(String.format("User with email: '%s' already exists", userDto.getEmail()));
         }
 
-        BeanUtils.copyProperties(userDto, user);
+        User user = mappings.userCreateDtoToUser(userDto);
 
         String encryptedPassword = passwordEncoder.encode(userDto.getPassword());
-        Role userRole = roleRepository.findByName(Roles.USER.name()).get();
+        Role userRole = roleRepository.findByName(Roles.USER.name()).orElse(null);
         user.setEncryptedPassword(encryptedPassword);
         user.setRole(userRole);
 
         User createdUser = userRepository.save(user);
 
-        BeanUtils.copyProperties(createdUser, response);
-        response.setRole(createdUser.getRole().getName());
-
-        return response;
+        return mappings.userToUserViewModel(createdUser);
     }
 
     @Override
@@ -142,8 +110,6 @@ public class UserService implements IUserService {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_UPDATE_USER)) {
             throw new ForbiddenException();
         }
-
-        UserViewModel response = new UserViewModel();
 
         Optional<User> userExists = userRepository.findById(userDto.getId());
 
@@ -159,28 +125,24 @@ public class UserService implements IUserService {
 
         User updatedUser = userRepository.save(user);
 
-        BeanUtils.copyProperties(updatedUser, response);
-
-        return response;
+        return mappings.userToUserViewModel(updatedUser);
     }
 
     @Override
     public Optional<User> getCurrentUser() {
-        return userRepository.findByEmail(getUsernameFromToken());
-    }
-
-    private String getUsernameFromToken() {
         String header = request.getHeader(SecurityConstants.HEADER_STRING);
 
+        return userRepository.findByEmail(getUsernameFromToken(header));
+    }
+
+    private String getUsernameFromToken(String header) {
         if (header == null) {
             return null;
         }
 
         String token = header.split(" ")[1];
-        String username = Jwts.parser().setSigningKey(appConfig.SECRET_KEY).parseClaimsJws(token).getBody()
-                .getSubject();
 
-        return username;
+        return Jwts.parser().setSigningKey(appConfig.SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
     }
 
 }
