@@ -14,6 +14,7 @@ import com.ahirajustice.app.security.PermissionsProvider;
 import com.ahirajustice.app.services.permission.IPermissionValidatorService;
 import com.ahirajustice.app.viewmodels.role.RoleViewModel;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,7 +26,8 @@ public class RoleService implements IRoleService {
     private final IRoleRepository roleRepository;
     private final IPermissionRepository permissionRepository;
     private final IPermissionValidatorService permissionValidatorService;
-    private final RoleMappings mappings;
+
+    private final RoleMappings mappings = Mappers.getMapper(RoleMappings.class);
 
 
     public List<RoleViewModel> getRoles() throws ForbiddenException {

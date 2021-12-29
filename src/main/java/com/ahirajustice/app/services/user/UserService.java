@@ -18,6 +18,7 @@ import com.ahirajustice.app.services.permission.IPermissionValidatorService;
 import com.ahirajustice.app.viewmodels.user.UserViewModel;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,8 @@ public class UserService implements IUserService {
     private final IRoleRepository roleRepository;
     private final IPermissionValidatorService permissionValidatorService;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final UserMappings mappings;
+    
+    private final UserMappings mappings = Mappers.getMapper(UserMappings.class);
 
     @Override
     public List<UserViewModel> getUsers() throws ForbiddenException {
