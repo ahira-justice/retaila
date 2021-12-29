@@ -13,6 +13,7 @@ import com.ahirajustice.app.security.PermissionsProvider;
 import com.ahirajustice.app.viewmodels.permission.PermissionViewModel;
 
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,8 @@ public class PermissionService implements IPermissionService {
 
     private final IPermissionRepository permissionRepository;
     private final IPermissionValidatorService permissionValidatorService;
-    private final PermissionMappings mappings;
+
+    private final PermissionMappings mappings = Mappers.getMapper(PermissionMappings.class);
 
     @Override
     public List<PermissionViewModel> getPermissions() throws ForbiddenException {
@@ -29,7 +31,7 @@ public class PermissionService implements IPermissionService {
             throw new ForbiddenException();
         }
 
-        List<PermissionViewModel> responses = new ArrayList<PermissionViewModel>();
+        List<PermissionViewModel> responses = new ArrayList<>();
 
         Iterable<Permission> permissions = permissionRepository.findAll();
 
