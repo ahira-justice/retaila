@@ -1,11 +1,9 @@
 package com.ahirajustice.app.services.user;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.ahirajustice.app.dtos.user.UserCreateDto;
 import com.ahirajustice.app.dtos.user.UserUpdateDto;
-import com.ahirajustice.app.entities.User;
 import com.ahirajustice.app.exceptions.BadRequestException;
 import com.ahirajustice.app.exceptions.ForbiddenException;
 import com.ahirajustice.app.exceptions.NotFoundException;
@@ -22,7 +20,5 @@ public interface IUserService {
     UserViewModel createUser(UserCreateDto userDto) throws BadRequestException;
 
     UserViewModel updateUser(UserUpdateDto userDto) throws NotFoundException, ForbiddenException;
-
-    Optional<User> getCurrentUser();
 
 }
