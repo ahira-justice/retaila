@@ -1,7 +1,9 @@
 package com.ahirajustice.app.services.user;
 
-import com.ahirajustice.app.config.AppConfig;
-import com.ahirajustice.app.constants.SecurityConstants;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import com.ahirajustice.app.dtos.user.UserCreateDto;
 import com.ahirajustice.app.dtos.user.UserUpdateDto;
 import com.ahirajustice.app.entities.Role;
@@ -16,23 +18,17 @@ import com.ahirajustice.app.repositories.IUserRepository;
 import com.ahirajustice.app.security.PermissionsProvider;
 import com.ahirajustice.app.services.permission.IPermissionValidatorService;
 import com.ahirajustice.app.viewmodels.user.UserViewModel;
-import io.jsonwebtoken.Jwts;
-import lombok.RequiredArgsConstructor;
+
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 
-    private final AppConfig appConfig;
-    private final HttpServletRequest request;
     private final IUserRepository userRepository;
     private final IRoleRepository roleRepository;
     private final IPermissionValidatorService permissionValidatorService;
@@ -128,23 +124,6 @@ public class UserService implements IUserService {
         User updatedUser = userRepository.save(user);
 
         return mappings.userToUserViewModel(updatedUser);
-    }
-
-    @Override
-    public Optional<User> getCurrentUser() {
-        String header = request.getHeader(SecurityConstants.HEADER_STRING);
-
-        return userRepository.findByEmail(getUsernameFromToken(header));
-    }
-
-    private String getUsernameFromToken(String header) {
-        if (header == null) {
-            return null;
-        }
-
-        String token = header.split(" ")[1];
-
-        return Jwts.parser().setSigningKey(appConfig.SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
     }
 
 }

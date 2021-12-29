@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.ahirajustice.app.entities.Permission;
 import com.ahirajustice.app.entities.User;
-import com.ahirajustice.app.services.user.IUserService;
+import com.ahirajustice.app.services.user.ICurrentUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 public class PermissionValidatorService implements IPermissionValidatorService {
 
     @Autowired
-    IUserService userService;
+    ICurrentUserService currentUserService;
 
     @Override
     public boolean authorize(Permission checkPermission) {
-        Optional<User> userExists = userService.getCurrentUser();
+        Optional<User> userExists = currentUserService.getCurrentUser();
 
         if (!userExists.isPresent()) {
             return false;
