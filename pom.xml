@@ -10,10 +10,10 @@
 	</parent>
 
 	<groupId>com.ahirajustice</groupId>
-	<artifactId>app</artifactId>
+	<artifactId>retail</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>app</name>
-	<description>Demo project for Spring Boot</description>
+	<name>retail</name>
+	<description>A basic retail application backend</description>
 
 	<properties>
 		<java.version>8</java.version>
