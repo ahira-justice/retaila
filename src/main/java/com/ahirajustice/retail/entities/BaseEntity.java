@@ -1,5 +1,8 @@
 package com.ahirajustice.retail.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.GeneratedValue;
@@ -9,6 +12,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+@Getter
+@Setter
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -30,38 +35,6 @@ public abstract class BaseEntity {
     @PreUpdate
     public void autoSetUpdatedOn() {
         this.updatedOn = LocalDateTime.now();
-    }
-
-    public long getId() {
-        return this.id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public LocalDateTime getUpdatedOn() {
-        return updatedOn;
-    }
-
-    public void setUpdatedOn(LocalDateTime updatedOn) {
-        this.updatedOn = updatedOn;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
     }
 
 }

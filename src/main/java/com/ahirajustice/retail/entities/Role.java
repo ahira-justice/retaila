@@ -1,5 +1,7 @@
 package com.ahirajustice.retail.entities;
 
+import lombok.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +13,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "roles")
 public class Role extends BaseEntity {
 
@@ -19,41 +26,13 @@ public class Role extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "roles_permissions", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    private Set<Permission> permissions = new HashSet<Permission>();
+    private Set<Permission> permissions = new HashSet<>();
 
     @OneToMany(mappedBy = "role")
-    private Set<User> users = new HashSet<User>();
-
-    public Role() {
-
-    }
+    private Set<User> users = new HashSet<>();
 
     public Role(String name) {
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(Set<Permission> permissions) {
-        this.permissions = permissions;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
     }
 
 }
