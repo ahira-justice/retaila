@@ -29,4 +29,9 @@ public class Permission extends BaseEntity {
         this.name = name;
     }
 
+    public Permission(String name, boolean isSystem) {
+        this.name = name;
+        this.isSystem = isSystem;
+    }
+
 }
