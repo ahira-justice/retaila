@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: ${env.DATABASE_URL}
+    username: ${env.DATABASE_USER}
+    password: ${env.DATABASE_PASSWORD}
+  web:
+    resources:
+      add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+
+server:
+  port: ${env.PORT}
+  error:
+    whitelabel:
+      enabled: false
+
+
+springdoc:
+  api-docs:
+    path: /api/retail/docs
+  swagger-ui:
+    path: /api/retail/index.html
+    tagsSorter: alpha
+    operationsSorter: method
+  packages-to-exclude: "com.ahirajustice.app.entities,"
+
+
+app:
+  config:
+    accesstokenexpireminutes: ${env.ACCESS_TOKEN_EXPIRE_MINUTES}
+    secretkey: ${env.SECRET_KEY}
+    superuser:
+      email: ${env.SUPERUSER_EMAIL}
+      firstname: ${env.SUPERUSER_FIRST_NAME}
+      lastname: ${env.SUPERUSER_LAST_NAME}
+      password: ${env.SUPERUSER_PASSWORD}
