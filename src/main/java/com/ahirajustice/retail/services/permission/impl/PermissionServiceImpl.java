@@ -8,7 +8,7 @@ import com.ahirajustice.retail.entities.Permission;
 import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.NotFoundException;
 import com.ahirajustice.retail.mappings.permission.PermissionMappings;
-import com.ahirajustice.retail.repositories.IPermissionRepository;
+import com.ahirajustice.retail.repositories.PermissionRepository;
 import com.ahirajustice.retail.security.PermissionsProvider;
 import com.ahirajustice.retail.services.permission.PermissionService;
 import com.ahirajustice.retail.services.permission.PermissionValidatorService;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PermissionServiceImpl implements PermissionService {
 
-    private final IPermissionRepository permissionRepository;
+    private final PermissionRepository permissionRepository;
     private final PermissionValidatorService permissionValidatorService;
 
     private final PermissionMappings mappings = Mappers.getMapper(PermissionMappings.class);

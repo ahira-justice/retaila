@@ -8,7 +8,7 @@ import com.ahirajustice.retail.dtos.auth.AuthToken;
 import com.ahirajustice.retail.dtos.auth.LoginDto;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.enums.TimeFactor;
-import com.ahirajustice.retail.repositories.IUserRepository;
+import com.ahirajustice.retail.repositories.UserRepository;
 import com.ahirajustice.retail.services.auth.AuthService;
 import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
 import io.jsonwebtoken.Claims;
@@ -26,7 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final IUserRepository userRepository;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AppConfig appConfig;
 

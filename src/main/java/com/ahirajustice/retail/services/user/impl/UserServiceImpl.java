@@ -13,8 +13,8 @@ import com.ahirajustice.retail.exceptions.BadRequestException;
 import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.NotFoundException;
 import com.ahirajustice.retail.mappings.user.UserMappings;
-import com.ahirajustice.retail.repositories.IRoleRepository;
-import com.ahirajustice.retail.repositories.IUserRepository;
+import com.ahirajustice.retail.repositories.RoleRepository;
+import com.ahirajustice.retail.repositories.UserRepository;
 import com.ahirajustice.retail.security.PermissionsProvider;
 import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.services.user.UserService;
@@ -30,8 +30,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final IUserRepository userRepository;
-    private final IRoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PermissionValidatorService permissionValidatorService;
     private final BCryptPasswordEncoder passwordEncoder;
     

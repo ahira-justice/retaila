@@ -8,8 +8,8 @@ import com.ahirajustice.retail.exceptions.BadRequestException;
 import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.NotFoundException;
 import com.ahirajustice.retail.mappings.role.RoleMappings;
-import com.ahirajustice.retail.repositories.IPermissionRepository;
-import com.ahirajustice.retail.repositories.IRoleRepository;
+import com.ahirajustice.retail.repositories.PermissionRepository;
+import com.ahirajustice.retail.repositories.RoleRepository;
 import com.ahirajustice.retail.security.PermissionsProvider;
 import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.services.role.RoleService;
@@ -24,8 +24,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
-    private final IRoleRepository roleRepository;
-    private final IPermissionRepository permissionRepository;
+    private final RoleRepository roleRepository;
+    private final PermissionRepository permissionRepository;
     private final PermissionValidatorService permissionValidatorService;
 
     private final RoleMappings mappings = Mappers.getMapper(RoleMappings.class);

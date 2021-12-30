@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.ahirajustice.retail.config.AppConfig;
 import com.ahirajustice.retail.constants.SecurityConstants;
 import com.ahirajustice.retail.entities.User;
-import com.ahirajustice.retail.repositories.IUserRepository;
+import com.ahirajustice.retail.repositories.UserRepository;
 
 import com.ahirajustice.retail.services.user.CurrentUserService;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class CurrentUserServiceImpl implements CurrentUserService {
 
     private final AppConfig appConfig;
     private final HttpServletRequest request;
-    private final IUserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Optional<User> getCurrentUser() {

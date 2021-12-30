@@ -9,9 +9,9 @@ import com.ahirajustice.retail.entities.Permission;
 import com.ahirajustice.retail.entities.Role;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.enums.Roles;
-import com.ahirajustice.retail.repositories.IPermissionRepository;
-import com.ahirajustice.retail.repositories.IRoleRepository;
-import com.ahirajustice.retail.repositories.IUserRepository;
+import com.ahirajustice.retail.repositories.PermissionRepository;
+import com.ahirajustice.retail.repositories.RoleRepository;
+import com.ahirajustice.retail.repositories.UserRepository;
 import com.ahirajustice.retail.security.PermissionsProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +23,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatabaseSeeder implements ApplicationRunner {
 
-    private IUserRepository userRepository;
-    private IRoleRepository roleRepository;
-    private IPermissionRepository permissionRepository;
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
+    private PermissionRepository permissionRepository;
 
     private BCryptPasswordEncoder passwordEncoder;
     private AppConfig appConfig;
 
     @Autowired
-    public DatabaseSeeder(IUserRepository userRepository, IRoleRepository roleRepository,
-            IPermissionRepository permissionRepository, BCryptPasswordEncoder passwordEncoder, AppConfig appConfig) {
+    public DatabaseSeeder(UserRepository userRepository, RoleRepository roleRepository, PermissionRepository permissionRepository, BCryptPasswordEncoder passwordEncoder, AppConfig appConfig) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.permissionRepository = permissionRepository;

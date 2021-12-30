@@ -15,7 +15,7 @@ import com.ahirajustice.retail.config.SpringApplicationContext;
 import com.ahirajustice.retail.constants.SecurityConstants;
 import com.ahirajustice.retail.dtos.auth.AuthToken;
 import com.ahirajustice.retail.exceptions.UnauthorizedException;
-import com.ahirajustice.retail.repositories.IUserRepository;
+import com.ahirajustice.retail.repositories.UserRepository;
 import com.ahirajustice.retail.services.auth.AuthService;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -84,7 +84,7 @@ public class AuthorizationFilter extends GenericFilterBean {
     }
 
     private boolean userExists(AuthToken token) {
-        IUserRepository userRepository = (IUserRepository) SpringApplicationContext.getBean("IUserRepository");
+        UserRepository userRepository = (UserRepository) SpringApplicationContext.getBean("IUserRepository");
         return userRepository.findByEmail(token.getUsername()).isPresent();
     }
 
