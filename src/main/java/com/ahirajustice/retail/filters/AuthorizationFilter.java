@@ -32,7 +32,7 @@ public class AuthorizationFilter extends GenericFilterBean {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        AuthService authService = (AuthService) SpringApplicationContext.getBean("authService");
+        AuthService authService = (AuthService) SpringApplicationContext.getBean("authServiceImpl");
 
         if (!excludeFromAuth(request.getRequestURI(), request.getMethod())) {
             String header = request.getHeader(SecurityConstants.HEADER_STRING);
