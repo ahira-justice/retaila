@@ -8,7 +8,7 @@ import com.ahirajustice.retail.exceptions.BadRequestException;
 import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.NotFoundException;
 import com.ahirajustice.retail.exceptions.ValidationException;
-import com.ahirajustice.retail.services.user.IUserService;
+import com.ahirajustice.retail.services.user.UserService;
 import com.ahirajustice.retail.validators.ValidatorUtils;
 import com.ahirajustice.retail.validators.user.UserCreateDtoValidator;
 import com.ahirajustice.retail.validators.user.UserUpdateDtoValidator;
@@ -40,7 +40,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class UserController {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Operation(summary = "Get Users", security = { @SecurityRequirement(name = "bearer") })
     @ApiResponses(value = {

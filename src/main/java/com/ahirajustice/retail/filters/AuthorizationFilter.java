@@ -16,7 +16,7 @@ import com.ahirajustice.retail.constants.SecurityConstants;
 import com.ahirajustice.retail.dtos.auth.AuthToken;
 import com.ahirajustice.retail.exceptions.UnauthorizedException;
 import com.ahirajustice.retail.repositories.IUserRepository;
-import com.ahirajustice.retail.services.auth.IAuthService;
+import com.ahirajustice.retail.services.auth.AuthService;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,7 +32,7 @@ public class AuthorizationFilter extends GenericFilterBean {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        IAuthService authService = (IAuthService) SpringApplicationContext.getBean("authService");
+        AuthService authService = (AuthService) SpringApplicationContext.getBean("authService");
 
         if (!excludeFromAuth(request.getRequestURI(), request.getMethod())) {
             String header = request.getHeader(SecurityConstants.HEADER_STRING);

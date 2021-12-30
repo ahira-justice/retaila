@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.NotFoundException;
-import com.ahirajustice.retail.services.permission.IPermissionService;
+import com.ahirajustice.retail.services.permission.PermissionService;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.permission.PermissionViewModel;
 
@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class PermissionsController {
 
     @Autowired
-    IPermissionService permissionService;
+    PermissionService permissionService;
 
     @Operation(summary = "Get Permissions", security = { @SecurityRequirement(name = "bearer") })
     @ApiResponses(value = {

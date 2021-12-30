@@ -8,7 +8,7 @@ import com.ahirajustice.retail.exceptions.BadRequestException;
 import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.NotFoundException;
 import com.ahirajustice.retail.exceptions.ValidationException;
-import com.ahirajustice.retail.services.role.IRoleService;
+import com.ahirajustice.retail.services.role.RoleService;
 import com.ahirajustice.retail.validators.ValidatorUtils;
 import com.ahirajustice.retail.validators.role.RoleCreateDtoValidator;
 import com.ahirajustice.retail.validators.role.RoleUpdateDtoValidator;
@@ -40,7 +40,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class RoleController {
 
     @Autowired
-    IRoleService roleService;
+    RoleService roleService;
 
     @Operation(summary = "Get Roles", security = { @SecurityRequirement(name = "bearer") })
     @ApiResponses(value = {

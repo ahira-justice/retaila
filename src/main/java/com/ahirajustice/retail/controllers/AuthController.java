@@ -3,7 +3,7 @@ package com.ahirajustice.retail.controllers;
 import com.ahirajustice.retail.dtos.auth.LoginDto;
 import com.ahirajustice.retail.exceptions.UnauthorizedException;
 import com.ahirajustice.retail.exceptions.ValidationException;
-import com.ahirajustice.retail.services.auth.IAuthService;
+import com.ahirajustice.retail.services.auth.AuthService;
 import com.ahirajustice.retail.validators.ValidatorUtils;
 import com.ahirajustice.retail.validators.auth.LoginDtoValidator;
 import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class AuthController {
 
     @Autowired
-    IAuthService authService;
+    AuthService authService;
 
     @Operation(summary = "Login")
     @ApiResponses(value = {
