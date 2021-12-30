@@ -16,7 +16,7 @@ import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
 import com.ahirajustice.retail.viewmodels.role.RoleViewModel;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,10 +37,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Roles")
 @RestController
 @RequestMapping("api/roles")
+@RequiredArgsConstructor
 public class RoleController {
 
-    @Autowired
-    RoleService roleService;
+    private final RoleService roleService;
 
     @Operation(summary = "Get Roles", security = { @SecurityRequirement(name = "bearer") })
     @ApiResponses(value = {
@@ -51,8 +51,7 @@ public class RoleController {
     @RequestMapping(path = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<RoleViewModel> getRoles() throws ForbiddenException{
-        List<RoleViewModel> roles = roleService.getRoles();
-        return roles;
+        return roleService.getRoles();
     }
 
     @Operation(summary = "Get Role", security = { @SecurityRequirement(name = "bearer") })
@@ -66,8 +65,7 @@ public class RoleController {
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public RoleViewModel getRole(@PathVariable long id) throws NotFoundException, ForbiddenException {
-        RoleViewModel role = roleService.getRole(id);
-        return role;
+        return roleService.getRole(id);
     }
 
     @Operation(summary = "Create Role", security = { @SecurityRequirement(name = "bearer") })
@@ -84,11 +82,10 @@ public class RoleController {
     @ResponseStatus(HttpStatus.CREATED)
     public RoleViewModel createRole(@RequestBody RoleCreateDto roleDto)
             throws BadRequestException, ForbiddenException, ValidationException {
-        ValidatorUtils<RoleCreateDto> validator = new ValidatorUtils<RoleCreateDto>();
+        ValidatorUtils<RoleCreateDto> validator = new ValidatorUtils<>();
         validator.validate(new RoleCreateDtoValidator(), roleDto);
 
-        RoleViewModel createdRole = roleService.createRole(roleDto);
-        return createdRole;
+        return roleService.createRole(roleDto);
     }
 
     @Operation(summary = "Update Role", security = { @SecurityRequirement(name = "bearer") })
@@ -107,15 +104,14 @@ public class RoleController {
     @ResponseStatus(HttpStatus.OK)
     public RoleViewModel updateRole(@PathVariable long id, @RequestBody RoleUpdateDto roleDto)
             throws BadRequestException, ForbiddenException, NotFoundException, ValidationException {
-        ValidatorUtils<RoleUpdateDto> validator = new ValidatorUtils<RoleUpdateDto>();
+        ValidatorUtils<RoleUpdateDto> validator = new ValidatorUtils<>();
         validator.validate(new RoleUpdateDtoValidator(), roleDto);
 
         if (id != roleDto.getId()) {
             throw new BadRequestException("identifier mismatch");
         }
 
-        RoleViewModel updatedRole = roleService.updateRole(roleDto);
-        return updatedRole;
+        return roleService.updateRole(roleDto);
     }
 
 }

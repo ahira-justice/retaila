@@ -8,14 +8,14 @@ import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.services.user.CurrentUserService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class PermissionValidatorServiceImpl implements PermissionValidatorService {
 
-    @Autowired
-    CurrentUserService currentUserService;
+    private final CurrentUserService currentUserService;
 
     @Override
     public boolean authorize(Permission checkPermission) {

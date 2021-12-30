@@ -10,6 +10,7 @@ import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,10 +29,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Auth")
 @RestController
 @RequestMapping("api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    AuthService authService;
+    private final AuthService authService;
 
     @Operation(summary = "Login")
     @ApiResponses(value = {
@@ -47,7 +48,7 @@ public class AuthController {
         ValidatorUtils<LoginDto> validator = new ValidatorUtils<LoginDto>();
         validator.validate(new LoginDtoValidator(), loginDto);
 
-        LoginResponse token = new LoginResponse();
+        LoginResponse token;
 
         if (!authService.authenticateUser(loginDto)) {
             throw new UnauthorizedException("Incorrect username or password");

@@ -14,30 +14,22 @@ import com.ahirajustice.retail.repositories.RoleRepository;
 import com.ahirajustice.retail.repositories.UserRepository;
 import com.ahirajustice.retail.security.PermissionsProvider;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class DatabaseSeeder implements ApplicationRunner {
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PermissionRepository permissionRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PermissionRepository permissionRepository;
 
-    private BCryptPasswordEncoder passwordEncoder;
-    private AppConfig appConfig;
-
-    @Autowired
-    public DatabaseSeeder(UserRepository userRepository, RoleRepository roleRepository, PermissionRepository permissionRepository, BCryptPasswordEncoder passwordEncoder, AppConfig appConfig) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.permissionRepository = permissionRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.appConfig = appConfig;
-    }
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final AppConfig appConfig;
 
     private void installPermissions() {
         Set<Permission> permissions = PermissionsProvider.getAllPermissions();
@@ -51,8 +43,8 @@ public class DatabaseSeeder implements ApplicationRunner {
                 }
 
                 permissionRepository.save(permission);
-            } catch (Exception ex) {
-                continue;
+            } catch (Exception ignored) {
+
             }
         }
     }
@@ -65,7 +57,7 @@ public class DatabaseSeeder implements ApplicationRunner {
         for (Role role : roles) {
             Optional<Role> roleExists = roleRepository.findByName(role.getName());
 
-            Set<Permission> rolePermissions = new HashSet<Permission>();
+            Set<Permission> rolePermissions = new HashSet<>();
 
             for (Permission rolePermission : role.getPermissions()) {
                 for (Permission permission : permissions) {
@@ -96,7 +88,7 @@ public class DatabaseSeeder implements ApplicationRunner {
             }
 
             User superAdmin = new User();
-            Role superAdminRole = roleRepository.findByName(Roles.SUPERADMIN.name()).get();
+            Role superAdminRole = roleRepository.findByName(Roles.SUPERADMIN.name()).orElse(null);
             superAdmin.setEmail(appConfig.SUPERUSER_EMAIL);
             superAdmin.setFirstName(appConfig.SUPERUSER_FIRST_NAME);
             superAdmin.setLastName(appConfig.SUPERUSER_LAST_NAME);
@@ -105,13 +97,13 @@ public class DatabaseSeeder implements ApplicationRunner {
             superAdmin.setRole(superAdminRole);
 
             userRepository.save(superAdmin);
-        } catch (Exception ex) {
-            return;
+        } catch (Exception ignored) {
+
         }
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         installPermissions();
         installDefaultRoles();
         seedSuperAdminUser();

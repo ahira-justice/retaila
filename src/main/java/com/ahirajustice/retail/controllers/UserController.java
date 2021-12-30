@@ -16,7 +16,7 @@ import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
 import com.ahirajustice.retail.viewmodels.user.UserViewModel;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,10 +37,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Users")
 @RestController
 @RequestMapping("api/users")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Operation(summary = "Get Users", security = { @SecurityRequirement(name = "bearer") })
     @ApiResponses(value = {

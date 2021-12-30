@@ -8,7 +8,7 @@ import com.ahirajustice.retail.services.permission.PermissionService;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.permission.PermissionViewModel;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,10 +28,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Permissions")
 @RestController
 @RequestMapping("api/permissions")
+@RequiredArgsConstructor
 public class PermissionsController {
 
-    @Autowired
-    PermissionService permissionService;
+    private final PermissionService permissionService;
 
     @Operation(summary = "Get Permissions", security = { @SecurityRequirement(name = "bearer") })
     @ApiResponses(value = {
@@ -42,8 +42,7 @@ public class PermissionsController {
     @RequestMapping(path = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<PermissionViewModel> getPermissions() throws ForbiddenException {
-        List<PermissionViewModel> permissions = permissionService.getPermissions();
-        return permissions;
+        return permissionService.getPermissions();
     }
 
     @Operation(summary = "Get Permission", security = { @SecurityRequirement(name = "bearer") })
@@ -57,8 +56,7 @@ public class PermissionsController {
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public PermissionViewModel getPermission(@PathVariable long id) throws NotFoundException, ForbiddenException {
-        PermissionViewModel permission = permissionService.getPermission(id);
-        return permission;
+        return permissionService.getPermission(id);
     }
 
 }
