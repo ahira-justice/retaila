@@ -19,13 +19,11 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    private String emailVerificationToken;
+    @Column(nullable = false)
+    private boolean isEmailVerified = false;
 
     @Column(nullable = false)
-    private Boolean emailVerificationStatus = false;
-
-    @Column(nullable = false)
-    private String encryptedPassword;
+    private String password;
 
     @Column(nullable = false, length = 50)
     private String firstName;

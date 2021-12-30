@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
             return false;
         }
 
-        if (!verifyPassword(loginDto.getPassword(), userExists.get().getEncryptedPassword())) {
+        if (!verifyPassword(loginDto.getPassword(), userExists.get().getPassword())) {
             return false;
         }
 

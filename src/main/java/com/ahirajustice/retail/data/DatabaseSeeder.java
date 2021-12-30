@@ -92,8 +92,8 @@ public class DatabaseSeeder implements ApplicationRunner {
             superAdmin.setEmail(appConfig.SUPERUSER_EMAIL);
             superAdmin.setFirstName(appConfig.SUPERUSER_FIRST_NAME);
             superAdmin.setLastName(appConfig.SUPERUSER_LAST_NAME);
-            superAdmin.setEmailVerificationStatus(true);
-            superAdmin.setEncryptedPassword(passwordEncoder.encode(appConfig.SUPERUSER_PASSWORD));
+            superAdmin.setEmailVerified(true);
+            superAdmin.setPassword(passwordEncoder.encode(appConfig.SUPERUSER_PASSWORD));
             superAdmin.setRole(superAdminRole);
 
             userRepository.save(superAdmin);
