@@ -24,4 +24,9 @@ public class AppConfig {
     @Value("${app.config.superuser.password}")
     public String SUPERUSER_PASSWORD;
 
+    @Value("${app.config.usertoken.length}")
+    public int USER_TOKEN_LENGTH;
+
+    @Value("${app.config.usertoken.keyspace}")
+    public String USER_TOKEN_KEYSPACE;
 }

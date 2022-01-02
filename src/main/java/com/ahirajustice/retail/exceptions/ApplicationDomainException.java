@@ -2,7 +2,7 @@ package com.ahirajustice.retail.exceptions;
 
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 
-public class ApplicationDomainException extends Exception {
+public class ApplicationDomainException extends RuntimeException {
 
     private String code;
     private int statusCode;

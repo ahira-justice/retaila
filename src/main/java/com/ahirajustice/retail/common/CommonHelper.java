@@ -52,7 +52,7 @@ public class CommonHelper {
         return result;
     }
 
-    public String generateRandomString(int length, String alphabet) {
+    public static String generateRandomString(int length, String alphabet) {
         Random random = new SecureRandom();
         StringBuilder returnValue = new StringBuilder(length);
 

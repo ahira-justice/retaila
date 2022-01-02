@@ -37,3 +37,6 @@ app:
       firstname: ${env.SUPERUSER_FIRST_NAME}
       lastname: ${env.SUPERUSER_LAST_NAME}
       password: ${env.SUPERUSER_PASSWORD}
+    usertoken:
+      length: 6
+      keyspace: 0123456789

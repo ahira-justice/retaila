@@ -8,14 +8,21 @@ import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
 
 import br.com.fluentvalidator.context.Error;
+import lombok.Getter;
 
 public class ValidationException extends ApplicationDomainException {
 
-    private Dictionary<String, String> failures;
+    @Getter
+    private final Dictionary<String, String> failures;
 
-    public ValidationException() {
-        super("One or more validation failures have occurred", "UnprocessableEntity", 422);
-        this.failures = new Hashtable<String, String>();
+    private ValidationException() {
+        super("One or more validation failures have occurred");
+        this.failures = new Hashtable<>();
+    }
+
+    public ValidationException(String message) {
+        super(message);
+        this.failures = new Hashtable<>();
     }
 
     public ValidationException(Collection<Error> errors) {
@@ -24,14 +31,6 @@ public class ValidationException extends ApplicationDomainException {
         for (Error error : errors) {
             this.failures.put(error.getField(), error.getMessage());
         }
-    }
-
-    public Dictionary<String, String> getFailures() {
-        return failures;
-    }
-
-    public void setFailures(Dictionary<String, String> failures) {
-        this.failures = failures;
     }
 
     @Override
