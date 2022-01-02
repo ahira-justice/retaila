@@ -12,6 +12,7 @@ import com.ahirajustice.retail.enums.Roles;
 import com.ahirajustice.retail.exceptions.BadRequestException;
 import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.NotFoundException;
+import com.ahirajustice.retail.exceptions.ValidationException;
 import com.ahirajustice.retail.mappings.user.UserMappings;
 import com.ahirajustice.retail.repositories.RoleRepository;
 import com.ahirajustice.retail.repositories.UserRepository;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
     private final UserMappings mappings = Mappers.getMapper(UserMappings.class);
 
     @Override
-    public List<UserViewModel> getUsers() throws ForbiddenException {
+    public List<UserViewModel> getUsers() {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_VIEW_ALL_USERS)) {
             throw new ForbiddenException();
         }
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserViewModel getUser(String email) throws NotFoundException, ForbiddenException {
+    public UserViewModel getUser(String email) {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_VIEW_USER)) {
             throw new ForbiddenException();
         }
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserViewModel getUser(long id) throws NotFoundException, ForbiddenException {
+    public UserViewModel getUser(long id) {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_VIEW_USER)) {
             throw new ForbiddenException();
         }
@@ -85,7 +86,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserViewModel createUser(UserCreateDto userDto) throws BadRequestException {
+    public User verifyUserExists(long id) {
+        Optional<User> userExists = userRepository.findById(id);
+
+        if (!userExists.isPresent()) {
+            throw new ValidationException(String.format("User with id: '%d' does not exist", id));
+        }
+
+        return userExists.get();
+    }
+
+    @Override
+    public User verifyUserExists(String username) {
+        Optional<User> userExists = userRepository.findByEmail(username);
+
+        if (!userExists.isPresent()) {
+            throw new ValidationException(String.format("User with username: '%s' does not exist", username));
+        }
+
+        return userExists.get();
+    }
+
+    @Override
+    public UserViewModel createUser(UserCreateDto userDto) {
         Optional<User> userExists = userRepository.findByEmail(userDto.getEmail());
 
         if (userExists.isPresent()) {
@@ -105,7 +128,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserViewModel updateUser(UserUpdateDto userDto) throws NotFoundException, ForbiddenException {
+    public UserViewModel updateUser(UserUpdateDto userDto) {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_UPDATE_USER)) {
             throw new ForbiddenException();
         }

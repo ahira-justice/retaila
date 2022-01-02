@@ -4,21 +4,23 @@ import java.util.List;
 
 import com.ahirajustice.retail.dtos.user.UserCreateDto;
 import com.ahirajustice.retail.dtos.user.UserUpdateDto;
-import com.ahirajustice.retail.exceptions.BadRequestException;
-import com.ahirajustice.retail.exceptions.ForbiddenException;
-import com.ahirajustice.retail.exceptions.NotFoundException;
+import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.viewmodels.user.UserViewModel;
 
 public interface UserService {
 
-    List<UserViewModel> getUsers() throws ForbiddenException;
+    List<UserViewModel> getUsers();
 
-    UserViewModel getUser(String email) throws NotFoundException, ForbiddenException;
+    UserViewModel getUser(String email);
 
-    UserViewModel getUser(long id) throws NotFoundException, ForbiddenException;
+    UserViewModel getUser(long id);
 
-    UserViewModel createUser(UserCreateDto userDto) throws BadRequestException;
+    User verifyUserExists(long id);
 
-    UserViewModel updateUser(UserUpdateDto userDto) throws NotFoundException, ForbiddenException;
+    User verifyUserExists(String username);
+
+    UserViewModel createUser(UserCreateDto userDto);
+
+    UserViewModel updateUser(UserUpdateDto userDto);
 
 }
