@@ -28,7 +28,7 @@ public class PermissionServiceImpl implements PermissionService {
     private final PermissionMappings mappings = Mappers.getMapper(PermissionMappings.class);
 
     @Override
-    public List<PermissionViewModel> getPermissions() throws ForbiddenException {
+    public List<PermissionViewModel> getPermissions() {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_VIEW_ALL_PERMISSIONS)) {
             throw new ForbiddenException();
         }
@@ -45,7 +45,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public PermissionViewModel getPermission(long id) throws NotFoundException, ForbiddenException {
+    public PermissionViewModel getPermission(long id) {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_VIEW_PERMISSION)) {
             throw new ForbiddenException();
         }

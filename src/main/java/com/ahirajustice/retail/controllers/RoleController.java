@@ -50,7 +50,7 @@ public class RoleController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
     @RequestMapping(path = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<RoleViewModel> getRoles() throws ForbiddenException{
+    public List<RoleViewModel> getRoles() {
         return roleService.getRoles();
     }
 
@@ -64,7 +64,7 @@ public class RoleController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public RoleViewModel getRole(@PathVariable long id) throws NotFoundException, ForbiddenException {
+    public RoleViewModel getRole(@PathVariable long id) {
         return roleService.getRole(id);
     }
 
@@ -80,8 +80,7 @@ public class RoleController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) }) })
     @RequestMapping(path = "", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public RoleViewModel createRole(@RequestBody RoleCreateDto roleDto)
-            throws BadRequestException, ForbiddenException, ValidationException {
+    public RoleViewModel createRole(@RequestBody RoleCreateDto roleDto) {
         ValidatorUtils<RoleCreateDto> validator = new ValidatorUtils<>();
         validator.validate(new RoleCreateDtoValidator(), roleDto);
 
@@ -102,8 +101,7 @@ public class RoleController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) }) })
     @RequestMapping(path = "{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public RoleViewModel updateRole(@PathVariable long id, @RequestBody RoleUpdateDto roleDto)
-            throws BadRequestException, ForbiddenException, NotFoundException, ValidationException {
+    public RoleViewModel updateRole(@PathVariable long id, @RequestBody RoleUpdateDto roleDto) {
         ValidatorUtils<RoleUpdateDto> validator = new ValidatorUtils<>();
         validator.validate(new RoleUpdateDtoValidator(), roleDto);
 

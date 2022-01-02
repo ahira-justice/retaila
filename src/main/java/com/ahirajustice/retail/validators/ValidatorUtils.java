@@ -10,7 +10,7 @@ import br.com.fluentvalidator.context.ValidationResult;
 
 public class ValidatorUtils<T> {
 
-    public boolean validate(AbstractValidator<T> validator, T dto) throws ValidationException {
+    public void validate(AbstractValidator<T> validator, T dto) {
         ValidationResult result = validator.validate(dto);
 
         if (!result.isValid()) {
@@ -19,7 +19,6 @@ public class ValidatorUtils<T> {
             throw ex;
         }
 
-        return true;
     }
 
 }

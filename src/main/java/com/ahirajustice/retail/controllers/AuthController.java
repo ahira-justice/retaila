@@ -44,7 +44,7 @@ public class AuthController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) }) })
     @RequestMapping(path = "login", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public LoginResponse login(@RequestBody LoginDto loginDto) throws UnauthorizedException, ValidationException {
+    public LoginResponse login(@RequestBody LoginDto loginDto) {
         ValidatorUtils<LoginDto> validator = new ValidatorUtils<LoginDto>();
         validator.validate(new LoginDtoValidator(), loginDto);
 

@@ -50,7 +50,7 @@ public class UserController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
     @RequestMapping(path = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<UserViewModel> getUsers() throws ForbiddenException {
+    public List<UserViewModel> getUsers() {
         return userService.getUsers();
     }
 
@@ -64,7 +64,7 @@ public class UserController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public UserViewModel getUser(@PathVariable long id) throws NotFoundException, ForbiddenException {
+    public UserViewModel getUser(@PathVariable long id) {
         return userService.getUser(id);
     }
 
@@ -78,7 +78,7 @@ public class UserController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) }) })
     @RequestMapping(path = "", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public UserViewModel createUser(@RequestBody UserCreateDto userDto) throws BadRequestException, ValidationException {
+    public UserViewModel createUser(@RequestBody UserCreateDto userDto) {
         ValidatorUtils<UserCreateDto> validator = new ValidatorUtils<>();
         validator.validate(new UserCreateDtoValidator(), userDto);
 
@@ -99,7 +99,7 @@ public class UserController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) }) })
     @RequestMapping(path = "{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public UserViewModel updateUser(@PathVariable long id, @RequestBody UserUpdateDto userDto) throws BadRequestException, NotFoundException, ValidationException, ForbiddenException {
+    public UserViewModel updateUser(@PathVariable long id, @RequestBody UserUpdateDto userDto) {
         ValidatorUtils<UserUpdateDto> validator = new ValidatorUtils<>();
         validator.validate(new UserUpdateDtoValidator(), userDto);
 

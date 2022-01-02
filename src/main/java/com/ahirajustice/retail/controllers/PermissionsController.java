@@ -41,7 +41,7 @@ public class PermissionsController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
     @RequestMapping(path = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<PermissionViewModel> getPermissions() throws ForbiddenException {
+    public List<PermissionViewModel> getPermissions() {
         return permissionService.getPermissions();
     }
 
@@ -55,7 +55,7 @@ public class PermissionsController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public PermissionViewModel getPermission(@PathVariable long id) throws NotFoundException, ForbiddenException {
+    public PermissionViewModel getPermission(@PathVariable long id) {
         return permissionService.getPermission(id);
     }
 

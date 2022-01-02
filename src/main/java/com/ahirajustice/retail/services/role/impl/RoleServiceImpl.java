@@ -31,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
     private final RoleMappings mappings = Mappers.getMapper(RoleMappings.class);
 
 
-    public List<RoleViewModel> getRoles() throws ForbiddenException {
+    public List<RoleViewModel> getRoles() {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_VIEW_ALL_ROLES)) {
             throw new ForbiddenException();
         }
@@ -47,7 +47,7 @@ public class RoleServiceImpl implements RoleService {
         return responses;
     }
 
-    public RoleViewModel getRole(long id) throws NotFoundException, ForbiddenException {
+    public RoleViewModel getRole(long id) {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_VIEW_ROLE)) {
             throw new ForbiddenException();
         }
@@ -62,7 +62,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleViewModel createRole(RoleCreateDto roleDto) throws BadRequestException, ForbiddenException {
+    public RoleViewModel createRole(RoleCreateDto roleDto) {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_CREATE_ROLE)) {
             throw new ForbiddenException();
         }
@@ -87,7 +87,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleViewModel updateRole(RoleUpdateDto roleDto) throws BadRequestException, ForbiddenException, NotFoundException {
+    public RoleViewModel updateRole(RoleUpdateDto roleDto) {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_UPDATE_ROLE)) {
             throw new ForbiddenException();
         }
