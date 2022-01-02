@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 @Entity(name = "users")
 public class User extends BaseEntity {
 
+    @Column(unique = true)
+    private String username;
+
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
