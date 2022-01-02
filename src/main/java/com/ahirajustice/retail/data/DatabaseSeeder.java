@@ -90,6 +90,7 @@ public class DatabaseSeeder implements ApplicationRunner {
             User superAdmin = new User();
             Role superAdminRole = roleRepository.findByName(Roles.SUPERADMIN.name()).orElse(null);
             superAdmin.setEmail(appConfig.SUPERUSER_EMAIL);
+            superAdmin.setUsername(superAdmin.getEmail());
             superAdmin.setFirstName(appConfig.SUPERUSER_FIRST_NAME);
             superAdmin.setLastName(appConfig.SUPERUSER_LAST_NAME);
             superAdmin.setEmailVerified(true);
