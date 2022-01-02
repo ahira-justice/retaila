@@ -1,14 +1,15 @@
 package com.ahirajustice.retail.exceptions;
 
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
 public class ApplicationDomainException extends RuntimeException {
 
     private String code;
     private int statusCode;
-
-    public ApplicationDomainException() {
-    }
 
     public ApplicationDomainException(String message) {
         super(message);
@@ -25,26 +26,9 @@ public class ApplicationDomainException extends RuntimeException {
         this.statusCode = statusCode;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
-    }
-
     @Override
     public String toString() {
-        return String.format("Error: \n\nStatusCode: %d\n\nCode: %s\n\nMessage: %s", getStatusCode(), getCode(),
-                getMessage());
+        return String.format("Error: \n\nStatusCode: %d\n\nCode: %s\n\nMessage: %s", getStatusCode(), getCode(), getMessage());
     }
 
     public ErrorResponse toErrorResponse() {

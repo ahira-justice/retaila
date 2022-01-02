@@ -1,7 +1,12 @@
 package com.ahirajustice.retail.viewmodels.error;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class ErrorResponse {
 
     private LocalDateTime timestamp;
@@ -10,30 +15,6 @@ public class ErrorResponse {
 
     public ErrorResponse() {
         this.timestamp = LocalDateTime.now();
-    }
-
-    public String getTimestamp() {
-        return timestamp.toString();
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
 }

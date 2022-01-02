@@ -10,9 +10,9 @@ import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
 import br.com.fluentvalidator.context.Error;
 import lombok.Getter;
 
+@Getter
 public class ValidationException extends ApplicationDomainException {
 
-    @Getter
     private final Dictionary<String, String> failures;
 
     private ValidationException() {
