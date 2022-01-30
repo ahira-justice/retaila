@@ -1,4 +1,4 @@
-package com.ahirajustice.retail.services.usertoken.Impl;
+package com.ahirajustice.retail.services.usertoken.impl;
 
 import com.ahirajustice.retail.services.usertoken.UserTokenMailingService;
 
