@@ -2,6 +2,8 @@ package com.ahirajustice.retail.controllers;
 
 import com.ahirajustice.retail.dtos.usertoken.VerifyUserTokenRequest;
 import com.ahirajustice.retail.services.usertoken.UserTokenService;
+import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
+import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -31,8 +33,9 @@ public class UserTokenController {
     @ApiResponses(
         value = {
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class)) }),
-            @ApiResponse(responseCode = "401", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class)) }),
-            @ApiResponse(responseCode = "422", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class)) })
+            @ApiResponse(responseCode = "401", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "403", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "422", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) })
         }
     )
     @RequestMapping(path = "/verify", method = RequestMethod.POST)
