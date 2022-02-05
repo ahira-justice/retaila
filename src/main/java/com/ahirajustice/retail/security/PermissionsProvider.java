@@ -18,6 +18,10 @@ public class PermissionsProvider {
     public static Permission CAN_UPDATE_USER = new Permission("CAN_UPDATE_USER");
     public static Permission CAN_UPDATE_ALL_USERS = new Permission("CAN_UPDATE_ALL_USERS", true);
 
+    // UserToken permissions
+    public static Permission CAN_REQUEST_USER_TOKEN = new Permission("CAN_REQUEST_USER_TOKEN");
+    public static Permission CAN_VERIFY_USER_TOKEN = new Permission("CAN_VERIFY_USER_TOKEN");
+
     // Permission permissions
     public static Permission CAN_VIEW_PERMISSION = new Permission("CAN_VIEW_PERMISSION", true);
     public static Permission CAN_VIEW_ALL_PERMISSIONS = new Permission("CAN_VIEW_ALL_PERMISSIONS", true);
@@ -40,6 +44,10 @@ public class PermissionsProvider {
         permissions.add(CAN_CREATE_SUPER_ADMIN_USER);
         permissions.add(CAN_UPDATE_USER);
         permissions.add(CAN_UPDATE_ALL_USERS);
+
+        // UserToken permissions
+        permissions.add(CAN_REQUEST_USER_TOKEN);
+        permissions.add(CAN_VERIFY_USER_TOKEN);
 
         // Permission permissions
         permissions.add(CAN_VIEW_PERMISSION);
@@ -76,9 +84,14 @@ public class PermissionsProvider {
     private static Set<Permission> getUserPermissions() {
         Set<Permission> permissions = new HashSet<Permission>();
 
+        // User permissions
         permissions.add(CAN_VIEW_USER);
         permissions.add(CAN_CREATE_USER);
         permissions.add(CAN_UPDATE_USER);
+
+        // UserToken permissions
+        permissions.add(CAN_REQUEST_USER_TOKEN);
+        permissions.add(CAN_VERIFY_USER_TOKEN);
 
         return permissions;
     }
@@ -86,9 +99,14 @@ public class PermissionsProvider {
     private static Set<Permission> getAdminPermissions() {
         Set<Permission> permissions = new HashSet<Permission>();
 
+        // User permissions
         permissions.add(CAN_VIEW_USER);
         permissions.add(CAN_CREATE_USER);
         permissions.add(CAN_UPDATE_USER);
+
+        // UserToken permissions
+        permissions.add(CAN_REQUEST_USER_TOKEN);
+        permissions.add(CAN_VERIFY_USER_TOKEN);
 
         return permissions;
     }
