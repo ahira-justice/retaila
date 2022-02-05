@@ -9,8 +9,6 @@ public interface UserTokenService {
 
     boolean verifyToken(VerifyUserTokenRequest request);
 
-    boolean verifyToken(long userId, UserTokenType tokenType, String token);
-
     void useToken(long userId, UserTokenType tokenType, String token);
 
 }

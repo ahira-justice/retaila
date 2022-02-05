@@ -63,7 +63,16 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
 
     @Override
-    public boolean verifyToken(long userId, UserTokenType tokenType, String token) {
+    public void useToken(long userId, UserTokenType tokenType, String token) {
+        boolean isValid = verifyToken(userId, tokenType, token);
+        if (!isValid) {
+            throw new ValidationException("Token does not match available token");
+        }
+
+        userTokenRepository.deleteByUser_IdAndTokenType(userId, tokenType);
+    }
+
+    private boolean verifyToken(long userId, UserTokenType tokenType, String token) {
         Optional<UserToken> userTokenExists = userTokenRepository.findFirstByUser_IdAndTokenType(userId, tokenType);
 
         if (!userTokenExists.isPresent()) {
@@ -77,16 +86,6 @@ public class UserTokenServiceImpl implements UserTokenService {
         }
 
         return passwordEncoder.matches(token, userToken.getToken());
-    }
-
-    @Override
-    public void useToken(long userId, UserTokenType tokenType, String token) {
-        boolean isValid = verifyToken(userId, tokenType, token);
-        if (!isValid) {
-            throw new ValidationException("Token does not match available token");
-        }
-
-        userTokenRepository.deleteByUser_IdAndTokenType(userId, tokenType);
     }
 
     private void validateExpiry(long validityInSecs) {

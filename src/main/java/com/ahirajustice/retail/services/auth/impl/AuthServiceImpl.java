@@ -8,8 +8,11 @@ import com.ahirajustice.retail.dtos.auth.AuthToken;
 import com.ahirajustice.retail.dtos.auth.LoginDto;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.enums.TimeFactor;
+import com.ahirajustice.retail.exceptions.UnauthorizedException;
 import com.ahirajustice.retail.repositories.UserRepository;
 import com.ahirajustice.retail.services.auth.AuthService;
+import com.ahirajustice.retail.validators.ValidatorUtils;
+import com.ahirajustice.retail.validators.auth.LoginDtoValidator;
 import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -32,6 +35,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse createAccessToken(LoginDto loginDto) {
+        ValidatorUtils<LoginDto> validator = new ValidatorUtils<>();
+        validator.validate(new LoginDtoValidator(), loginDto);
+
+        if (!authenticateUser(loginDto)) {
+            throw new UnauthorizedException("Incorrect username or password");
+        }
+
         String subject = loginDto.getEmail();
         int expiry = loginDto.getExpires() > 0 ? loginDto.getExpires() : appConfig.ACCESS_TOKEN_EXPIRE_MINUTES;
 
@@ -45,21 +55,6 @@ public class AuthServiceImpl implements AuthService {
         loginResponse.setTokenType(SecurityConstants.TOKEN_PREFIX);
 
         return loginResponse;
-    }
-
-    @Override
-    public boolean authenticateUser(LoginDto loginDto) {
-        Optional<User> userExists = userRepository.findByEmail(loginDto.getEmail());
-
-        if (!userExists.isPresent()) {
-            return false;
-        }
-
-        if (!verifyPassword(loginDto.getPassword(), userExists.get().getPassword())) {
-            return false;
-        }
-
-        return true;
     }
 
     @Override
@@ -82,6 +77,20 @@ public class AuthServiceImpl implements AuthService {
 
     private boolean verifyPassword(String password, String encryptedPassword) {
         return passwordEncoder.matches(password, encryptedPassword);
+    }
+
+    private boolean authenticateUser(LoginDto loginDto) {
+        Optional<User> userExists = userRepository.findByEmail(loginDto.getEmail());
+
+        if (!userExists.isPresent()) {
+            return false;
+        }
+
+        if (!verifyPassword(loginDto.getPassword(), userExists.get().getPassword())) {
+            return false;
+        }
+
+        return true;
     }
 
 }

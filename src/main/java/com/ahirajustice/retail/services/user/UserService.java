@@ -21,6 +21,6 @@ public interface UserService {
 
     UserViewModel createUser(UserCreateDto userDto);
 
-    UserViewModel updateUser(UserUpdateDto userDto);
+    UserViewModel updateUser(UserUpdateDto userDto, long id);
 
 }

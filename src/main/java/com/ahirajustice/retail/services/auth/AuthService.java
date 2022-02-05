@@ -6,10 +6,8 @@ import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
 
 public interface AuthService {
 
-    public LoginResponse createAccessToken(LoginDto loginDto);
+    LoginResponse createAccessToken(LoginDto loginDto);
 
-    public boolean authenticateUser(LoginDto loginDto);
-
-    public AuthToken decodeJwt(String token);
+    AuthToken decodeJwt(String token);
 
 }

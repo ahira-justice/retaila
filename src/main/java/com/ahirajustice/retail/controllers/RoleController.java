@@ -1,21 +1,19 @@
 package com.ahirajustice.retail.controllers;
 
-import java.util.List;
-
 import com.ahirajustice.retail.dtos.role.RoleCreateDto;
 import com.ahirajustice.retail.dtos.role.RoleUpdateDto;
-import com.ahirajustice.retail.exceptions.BadRequestException;
-import com.ahirajustice.retail.exceptions.ForbiddenException;
-import com.ahirajustice.retail.exceptions.NotFoundException;
-import com.ahirajustice.retail.exceptions.ValidationException;
 import com.ahirajustice.retail.services.role.RoleService;
-import com.ahirajustice.retail.validators.ValidatorUtils;
-import com.ahirajustice.retail.validators.role.RoleCreateDtoValidator;
-import com.ahirajustice.retail.validators.role.RoleUpdateDtoValidator;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
 import com.ahirajustice.retail.viewmodels.role.RoleViewModel;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,14 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 
 @Tag(name = "Roles")
 @RestController
@@ -81,9 +72,6 @@ public class RoleController {
     @RequestMapping(path = "", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public RoleViewModel createRole(@RequestBody RoleCreateDto roleDto) {
-        ValidatorUtils<RoleCreateDto> validator = new ValidatorUtils<>();
-        validator.validate(new RoleCreateDtoValidator(), roleDto);
-
         return roleService.createRole(roleDto);
     }
 
@@ -102,14 +90,7 @@ public class RoleController {
     @RequestMapping(path = "{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public RoleViewModel updateRole(@PathVariable long id, @RequestBody RoleUpdateDto roleDto) {
-        ValidatorUtils<RoleUpdateDto> validator = new ValidatorUtils<>();
-        validator.validate(new RoleUpdateDtoValidator(), roleDto);
-
-        if (id != roleDto.getId()) {
-            throw new BadRequestException("identifier mismatch");
-        }
-
-        return roleService.updateRole(roleDto);
+        return roleService.updateRole(roleDto, id);
     }
 
 }
