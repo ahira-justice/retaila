@@ -28,14 +28,14 @@ public class AuthController {
     private final AuthService authService;
 
     @Operation(summary = "Login")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class)) }),
-            @ApiResponse(responseCode = "401", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "422", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) }) })
-    @RequestMapping(path = "login", method = RequestMethod.POST)
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class)) }),
+            @ApiResponse(responseCode = "401", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "422", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) })
+        }
+    )
+    @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public LoginResponse login(@RequestBody LoginDto loginDto) {
         return authService.createAccessToken(loginDto);

@@ -34,11 +34,12 @@ public class UserController {
     private final UserService userService;
 
     @Operation(summary = "Get Users", security = { @SecurityRequirement(name = "bearer") })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserViewModel.class))) }),
-            @ApiResponse(responseCode = "403", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserViewModel.class))) }),
+            @ApiResponse(responseCode = "403", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) })
+        }
+    )
     @RequestMapping(path = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<UserViewModel> getUsers() {
@@ -46,27 +47,27 @@ public class UserController {
     }
 
     @Operation(summary = "Get User", security = { @SecurityRequirement(name = "bearer") })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = UserViewModel.class)) }),
-            @ApiResponse(responseCode = "403", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "404", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
-    @RequestMapping(path = "{id}", method = RequestMethod.GET)
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserViewModel.class)) }),
+            @ApiResponse(responseCode = "403", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) })
+        }
+    )
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public UserViewModel getUser(@PathVariable long id) {
         return userService.getUser(id);
     }
 
     @Operation(summary = "Create User")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = UserViewModel.class)) }),
-            @ApiResponse(responseCode = "400", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "422", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) }) })
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserViewModel.class)) }),
+            @ApiResponse(responseCode = "400", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "422", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) })
+        }
+    )
     @RequestMapping(path = "", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public UserViewModel createUser(@RequestBody UserCreateDto userDto) {
@@ -74,18 +75,16 @@ public class UserController {
     }
 
     @Operation(summary = "Update User", security = { @SecurityRequirement(name = "bearer") })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = UserViewModel.class)) }),
-            @ApiResponse(responseCode = "400", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "403", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "404", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "422", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) }) })
-    @RequestMapping(path = "{id}", method = RequestMethod.PUT)
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserViewModel.class)) }),
+            @ApiResponse(responseCode = "400", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "403", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "422", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) })
+        }
+    )
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public UserViewModel updateUser(@PathVariable long id, @RequestBody UserUpdateDto userDto) {
         return userService.updateUser(userDto, id);
