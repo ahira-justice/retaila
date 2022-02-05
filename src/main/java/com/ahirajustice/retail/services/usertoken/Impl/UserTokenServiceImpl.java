@@ -2,14 +2,16 @@ package com.ahirajustice.retail.services.usertoken.impl;
 
 import com.ahirajustice.retail.common.CommonHelper;
 import com.ahirajustice.retail.config.AppConfig;
+import com.ahirajustice.retail.dtos.usertoken.VerifyUserTokenRequest;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.entities.UserToken;
 import com.ahirajustice.retail.enums.UserTokenType;
 import com.ahirajustice.retail.exceptions.ValidationException;
 import com.ahirajustice.retail.repositories.UserTokenRepository;
-import com.ahirajustice.retail.dtos.usertoken.VerifyUserTokenRequest;
 import com.ahirajustice.retail.services.user.UserService;
 import com.ahirajustice.retail.services.usertoken.UserTokenService;
+import com.ahirajustice.retail.validators.ValidatorUtils;
+import com.ahirajustice.retail.validators.usertoken.VerifyUserTokenRequestValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.EnumUtils;
@@ -53,6 +55,9 @@ public class UserTokenServiceImpl implements UserTokenService {
 
     @Override
     public boolean verifyToken(VerifyUserTokenRequest request) {
+        ValidatorUtils<VerifyUserTokenRequest> validator = new ValidatorUtils<>();
+        validator.validate(new VerifyUserTokenRequestValidator(), request);
+
         User user = userService.verifyUserExists(request.getUsername());
 
         if (!EnumUtils.isValidEnum(UserTokenType.class, request.getTokenType())){
