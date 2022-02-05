@@ -2,18 +2,9 @@ package com.ahirajustice.retail.dtos.user;
 
 public class UserUpdateDto {
 
-    private long id;
     private String email;
     private String firstName;
     private String lastName;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getEmail() {
         return email;

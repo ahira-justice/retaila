@@ -13,6 +13,9 @@ import com.ahirajustice.retail.repositories.RoleRepository;
 import com.ahirajustice.retail.security.PermissionsProvider;
 import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.services.role.RoleService;
+import com.ahirajustice.retail.validators.ValidatorUtils;
+import com.ahirajustice.retail.validators.role.RoleCreateDtoValidator;
+import com.ahirajustice.retail.validators.role.RoleUpdateDtoValidator;
 import com.ahirajustice.retail.viewmodels.role.RoleViewModel;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -63,6 +66,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleViewModel createRole(RoleCreateDto roleDto) {
+        ValidatorUtils<RoleCreateDto> validator = new ValidatorUtils<>();
+        validator.validate(new RoleCreateDtoValidator(), roleDto);
+
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_CREATE_ROLE)) {
             throw new ForbiddenException();
         }
@@ -87,20 +93,23 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleViewModel updateRole(RoleUpdateDto roleDto) {
+    public RoleViewModel updateRole(RoleUpdateDto roleDto, long id) {
+        ValidatorUtils<RoleUpdateDto> validator = new ValidatorUtils<>();
+        validator.validate(new RoleUpdateDtoValidator(), roleDto);
+
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_UPDATE_ROLE)) {
             throw new ForbiddenException();
         }
 
-        Optional<Role> roleExists = roleRepository.findById(roleDto.getId());
+        Optional<Role> roleExists = roleRepository.findById(id);
 
         if (!roleExists.isPresent()) {
-            throw new NotFoundException(String.format("Role with id: '%d' does not exist", roleDto.getId()));
+            throw new NotFoundException(String.format("Role with id: '%d' does not exist", id));
         }
 
         Optional<Role> roleNameExists = roleRepository.findByName(roleDto.getName());
 
-        if (roleNameExists.isPresent() && roleNameExists.get().getId() != roleDto.getId()){
+        if (roleNameExists.isPresent() && roleNameExists.get().getId() != id){
             throw new BadRequestException(String.format("Role with name: '%s' already exists", roleDto.getName()));
         }
 

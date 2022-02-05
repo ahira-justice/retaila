@@ -14,6 +14,6 @@ public interface RoleService {
 
     RoleViewModel createRole(RoleCreateDto roleDto);
 
-    RoleViewModel updateRole(RoleUpdateDto roleDto);
+    RoleViewModel updateRole(RoleUpdateDto roleDto, long id);
 
 }

@@ -19,6 +19,9 @@ import com.ahirajustice.retail.repositories.UserRepository;
 import com.ahirajustice.retail.security.PermissionsProvider;
 import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.services.user.UserService;
+import com.ahirajustice.retail.validators.ValidatorUtils;
+import com.ahirajustice.retail.validators.user.UserCreateDtoValidator;
+import com.ahirajustice.retail.validators.user.UserUpdateDtoValidator;
 import com.ahirajustice.retail.viewmodels.user.UserViewModel;
 
 import org.mapstruct.factory.Mappers;
@@ -109,6 +112,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserViewModel createUser(UserCreateDto userDto) {
+        ValidatorUtils<UserCreateDto> validator = new ValidatorUtils<>();
+        validator.validate(new UserCreateDtoValidator(), userDto);
+
         Optional<User> userExists = userRepository.findByEmail(userDto.getEmail());
 
         if (userExists.isPresent()) {
@@ -129,15 +135,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserViewModel updateUser(UserUpdateDto userDto) {
+    public UserViewModel updateUser(UserUpdateDto userDto, long id) {
+        ValidatorUtils<UserUpdateDto> validator = new ValidatorUtils<>();
+        validator.validate(new UserUpdateDtoValidator(), userDto);
+
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_UPDATE_USER)) {
             throw new ForbiddenException();
         }
 
-        Optional<User> userExists = userRepository.findById(userDto.getId());
+        Optional<User> userExists = userRepository.findById(id);
 
         if (!userExists.isPresent()) {
-            throw new NotFoundException(String.format("User with id: '%d' does not exist", userDto.getId()));
+            throw new NotFoundException(String.format("User with id: '%d' does not exist", id));
         }
 
         User user = userExists.get();
