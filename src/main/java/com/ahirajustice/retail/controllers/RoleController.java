@@ -34,11 +34,12 @@ public class RoleController {
     private final RoleService roleService;
 
     @Operation(summary = "Get Roles", security = { @SecurityRequirement(name = "bearer") })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = RoleViewModel.class))) }),
-            @ApiResponse(responseCode = "403", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = RoleViewModel.class))) }),
+            @ApiResponse(responseCode = "403", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) })
+        }
+    )
     @RequestMapping(path = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<RoleViewModel> getRoles() {
@@ -46,29 +47,28 @@ public class RoleController {
     }
 
     @Operation(summary = "Get Role", security = { @SecurityRequirement(name = "bearer") })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = RoleViewModel.class)) }),
-            @ApiResponse(responseCode = "403", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "404", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
-    @RequestMapping(path = "{id}", method = RequestMethod.GET)
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = RoleViewModel.class)) }),
+            @ApiResponse(responseCode = "403", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) })
+        }
+    )
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public RoleViewModel getRole(@PathVariable long id) {
         return roleService.getRole(id);
     }
 
     @Operation(summary = "Create Role", security = { @SecurityRequirement(name = "bearer") })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = RoleViewModel.class)) }),
-            @ApiResponse(responseCode = "400", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "403", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "422", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) }) })
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = RoleViewModel.class)) }),
+            @ApiResponse(responseCode = "400", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "403", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "422", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) })
+        }
+    )
     @RequestMapping(path = "", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public RoleViewModel createRole(@RequestBody RoleCreateDto roleDto) {
@@ -76,18 +76,16 @@ public class RoleController {
     }
 
     @Operation(summary = "Update Role", security = { @SecurityRequirement(name = "bearer") })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = RoleViewModel.class)) }),
-            @ApiResponse(responseCode = "400", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "403", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "404", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "422", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) }) })
-    @RequestMapping(path = "{id}", method = RequestMethod.PUT)
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = RoleViewModel.class)) }),
+            @ApiResponse(responseCode = "400", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "403", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "422", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) })
+        }
+    )
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public RoleViewModel updateRole(@PathVariable long id, @RequestBody RoleUpdateDto roleDto) {
         return roleService.updateRole(roleDto, id);

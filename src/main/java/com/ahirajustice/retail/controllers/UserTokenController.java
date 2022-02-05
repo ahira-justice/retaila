@@ -28,13 +28,13 @@ public class UserTokenController {
     private final UserTokenService userTokenService;
 
     @Operation(summary = "Verify User Token")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class)) }),
-            @ApiResponse(responseCode = "401", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class)) }),
-            @ApiResponse(responseCode = "422", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class)) }) })
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class)) }),
+            @ApiResponse(responseCode = "401", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class)) }),
+            @ApiResponse(responseCode = "422", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class)) })
+        }
+    )
     @RequestMapping(path = "/verify", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public boolean verifyOtp(@RequestBody @Validated VerifyUserTokenRequest request) {

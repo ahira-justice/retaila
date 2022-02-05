@@ -30,11 +30,12 @@ public class PermissionsController {
     private final PermissionService permissionService;
 
     @Operation(summary = "Get Permissions", security = { @SecurityRequirement(name = "bearer") })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PermissionViewModel.class))) }),
-            @ApiResponse(responseCode = "403", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PermissionViewModel.class))) }),
+            @ApiResponse(responseCode = "403", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) })
+        }
+    )
     @RequestMapping(path = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<PermissionViewModel> getPermissions() {
@@ -42,14 +43,14 @@ public class PermissionsController {
     }
 
     @Operation(summary = "Get Permission", security = { @SecurityRequirement(name = "bearer") })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = PermissionViewModel.class)) }),
-            @ApiResponse(responseCode = "403", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "404", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }) })
-    @RequestMapping(path = "{id}", method = RequestMethod.GET)
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = PermissionViewModel.class)) }),
+            @ApiResponse(responseCode = "403", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) })
+        }
+    )
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public PermissionViewModel getPermission(@PathVariable long id) {
         return permissionService.getPermission(id);
