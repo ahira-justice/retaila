@@ -24,6 +24,8 @@ public class Role extends BaseEntity {
     @Column(unique = true)
     private String name;
 
+    private boolean isSystem;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "roles_permissions", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
     private Set<Permission> permissions = new HashSet<>();
@@ -35,4 +37,8 @@ public class Role extends BaseEntity {
         this.name = name;
     }
 
+    public Role(String name, boolean isSystem) {
+        this.name = name;
+        this.isSystem = isSystem;
+    }
 }
