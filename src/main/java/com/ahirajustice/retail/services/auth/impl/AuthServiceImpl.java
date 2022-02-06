@@ -41,6 +41,7 @@ public class AuthServiceImpl implements AuthService {
         authenticateUser(loginDto);
 
         String subject = loginDto.getUsername();
+
         int expiry = loginDto.getExpires() > 0 ? loginDto.getExpires() : appConfig.ACCESS_TOKEN_EXPIRE_MINUTES;
 
         String token = Jwts.builder()
