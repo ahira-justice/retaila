@@ -6,10 +6,8 @@ import com.ahirajustice.retail.dtos.usertoken.VerifyUserTokenRequest;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.entities.UserToken;
 import com.ahirajustice.retail.enums.UserTokenType;
-import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.ValidationException;
 import com.ahirajustice.retail.repositories.UserTokenRepository;
-import com.ahirajustice.retail.security.PermissionsProvider;
 import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.services.user.UserService;
 import com.ahirajustice.retail.services.usertoken.UserTokenService;
@@ -34,7 +32,6 @@ public class UserTokenServiceImpl implements UserTokenService {
     private final AppConfig appConfig;
     private final UserTokenRepository userTokenRepository;
     private final UserService userService;
-    private final PermissionValidatorService permissionValidatorService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -58,13 +55,9 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
 
     @Override
-    public boolean verifyToken(VerifyUserTokenRequest request) {
+    public void verifyToken(VerifyUserTokenRequest request) {
         ValidatorUtils<VerifyUserTokenRequest> validator = new ValidatorUtils<>();
         validator.validate(new VerifyUserTokenRequestValidator(), request);
-
-        if (!permissionValidatorService.authorize(PermissionsProvider.CAN_VERIFY_USER_TOKEN)) {
-            throw new ForbiddenException();
-        }
 
         User user = userService.verifyUserExists(request.getUsername());
 
@@ -72,7 +65,7 @@ public class UserTokenServiceImpl implements UserTokenService {
             throw new ValidationException("Invalid tokenType");
         }
 
-        return verifyToken(user.getId(), UserTokenType.valueOf(request.getTokenType()), request.getToken());
+        verifyToken(user.getId(), UserTokenType.valueOf(request.getTokenType()), request.getToken());
     }
 
     @Override

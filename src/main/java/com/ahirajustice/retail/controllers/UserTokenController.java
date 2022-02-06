@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "User Token")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/user-token")
+@RequestMapping("api/user-tokens")
 public class UserTokenController {
 
     private final UserTokenService userTokenService;
@@ -31,15 +31,14 @@ public class UserTokenController {
     @Operation(summary = "Verify User Token")
     @ApiResponses(
         value = {
-            @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class)) }),
+            @ApiResponse(responseCode = "204"),
             @ApiResponse(responseCode = "401", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "403", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
             @ApiResponse(responseCode = "422", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) })
         }
     )
     @RequestMapping(path = "/verify", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public boolean verifyOtp(@RequestBody VerifyUserTokenRequest request) {
-        return userTokenService.verifyToken(request);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void verifyOtp(@RequestBody VerifyUserTokenRequest request) {
+        userTokenService.verifyToken(request);
     }
 }

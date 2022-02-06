@@ -15,6 +15,7 @@ public class SecurityConstants {
         "/, GET",
         "/api/auth/login, POST", 
         "/api/users, POST",
+        "/api/user-tokens/verify, POST",
         "/api/retail/docs, GET",
         "/api/retail/docs.yaml, GET",
         "/api/retail/**, GET"
