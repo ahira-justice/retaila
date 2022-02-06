@@ -84,8 +84,8 @@ public class AuthorizationFilter extends GenericFilterBean {
     }
 
     private boolean userExists(AuthToken token) {
-        UserRepository userRepository = (UserRepository) SpringApplicationContext.getBean("IUserRepository");
-        return userRepository.findByEmail(token.getUsername()).isPresent();
+        UserRepository userRepository = (UserRepository) SpringApplicationContext.getBean("userRepository");
+        return userRepository.findByUsername(token.getUsername()).isPresent();
     }
 
     private boolean isExpired(AuthToken token) {

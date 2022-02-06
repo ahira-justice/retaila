@@ -11,6 +11,8 @@ public class UserCreateDtoValidator extends AbstractValidator<UserCreateDto> {
 
     @Override
     public void rules() {
+        ruleFor(UserCreateDto::getUsername)
+                .must(not(stringEmptyOrNull())).withMessage("username is required").withFieldName("username");
         ruleFor(UserCreateDto::getEmail)
                 .must(not(stringEmptyOrNull())).withMessage("email is required").withFieldName("email");
         ruleFor(UserCreateDto::getPassword)

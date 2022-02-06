@@ -11,7 +11,7 @@ public interface UserService {
 
     List<UserViewModel> getUsers();
 
-    UserViewModel getUser(String email);
+    UserViewModel getUser(String username);
 
     UserViewModel getUser(long id);
 

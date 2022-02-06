@@ -38,11 +38,9 @@ public class AuthServiceImpl implements AuthService {
         ValidatorUtils<LoginDto> validator = new ValidatorUtils<>();
         validator.validate(new LoginDtoValidator(), loginDto);
 
-        if (!authenticateUser(loginDto)) {
-            throw new UnauthorizedException("Incorrect username or password");
-        }
+        authenticateUser(loginDto);
 
-        String subject = loginDto.getEmail();
+        String subject = loginDto.getUsername();
         int expiry = loginDto.getExpires() > 0 ? loginDto.getExpires() : appConfig.ACCESS_TOKEN_EXPIRE_MINUTES;
 
         String token = Jwts.builder()
@@ -79,18 +77,16 @@ public class AuthServiceImpl implements AuthService {
         return passwordEncoder.matches(password, encryptedPassword);
     }
 
-    private boolean authenticateUser(LoginDto loginDto) {
-        Optional<User> userExists = userRepository.findByEmail(loginDto.getEmail());
+    private void authenticateUser(LoginDto loginDto) {
+        Optional<User> userExists = userRepository.findByUsername(loginDto.getUsername());
 
         if (!userExists.isPresent()) {
-            return false;
+            throw new UnauthorizedException("Incorrect username or password");
         }
 
         if (!verifyPassword(loginDto.getPassword(), userExists.get().getPassword())) {
-            return false;
+            throw new UnauthorizedException("Incorrect username or password");
         }
-
-        return true;
     }
 
 }
