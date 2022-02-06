@@ -81,7 +81,7 @@ public class DatabaseSeeder implements ApplicationRunner {
 
     private void seedSuperAdminUser() {
         try {
-            Optional<User> superAdminExists = userRepository.findByEmail(appConfig.SUPERUSER_EMAIL);
+            Optional<User> superAdminExists = userRepository.findByUsername(appConfig.SUPERUSER_EMAIL);
 
             if (superAdminExists.isPresent()) {
                 return;

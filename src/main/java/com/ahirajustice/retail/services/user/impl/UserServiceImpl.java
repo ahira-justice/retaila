@@ -59,18 +59,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserViewModel getUser(String email) {
+    public UserViewModel getUser(String username) {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_VIEW_USER)) {
             throw new ForbiddenException();
         }
 
-        Optional<User> userExists = userRepository.findByEmail(email);
+        User user = verifyUserExists(username);
 
-        if (!userExists.isPresent()) {
-            throw new NotFoundException(String.format("User with email: '%s' does not exist", email));
-        }
-
-        return mappings.userToUserViewModel(userExists.get());
+        return mappings.userToUserViewModel(user);
     }
 
     @Override
@@ -79,13 +75,9 @@ public class UserServiceImpl implements UserService {
             throw new ForbiddenException();
         }
 
-        Optional<User> userExists = userRepository.findById(id);
+        User user = verifyUserExists(id);
 
-        if (!userExists.isPresent()) {
-            throw new NotFoundException(String.format("User with id: '%d' does not exist", id));
-        }
-
-        return mappings.userToUserViewModel(userExists.get());
+        return mappings.userToUserViewModel(user);
     }
 
     @Override
@@ -101,7 +93,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User verifyUserExists(String username) {
-        Optional<User> userExists = userRepository.findByEmail(username);
+        Optional<User> userExists = userRepository.findByUsername(username);
 
         if (!userExists.isPresent()) {
             throw new ValidationException(String.format("User with username: '%s' does not exist", username));
@@ -115,10 +107,10 @@ public class UserServiceImpl implements UserService {
         ValidatorUtils<UserCreateDto> validator = new ValidatorUtils<>();
         validator.validate(new UserCreateDtoValidator(), userDto);
 
-        Optional<User> userExists = userRepository.findByEmail(userDto.getEmail());
+        Optional<User> userExists = userRepository.findByUsername(userDto.getUsername());
 
         if (userExists.isPresent()) {
-            throw new BadRequestException(String.format("User with email: '%s' already exists", userDto.getEmail()));
+            throw new BadRequestException(String.format("User with username: '%s' already exists", userDto.getUsername()));
         }
 
         User user = mappings.userCreateDtoToUser(userDto);

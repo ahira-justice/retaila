@@ -10,7 +10,7 @@ public class LoginDtoValidator extends AbstractValidator<LoginDto> {
 
     @Override
     public void rules() {
-        ruleFor(LoginDto::getEmail)
+        ruleFor(LoginDto::getUsername)
                 .must(not(stringEmptyOrNull())).withMessage("email is required").withFieldName("email");
         ruleFor(LoginDto::getPassword)
                 .must(not(stringEmptyOrNull())).withMessage("password is required").withFieldName("password");

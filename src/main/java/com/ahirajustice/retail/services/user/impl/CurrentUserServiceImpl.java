@@ -27,7 +27,7 @@ public class CurrentUserServiceImpl implements CurrentUserService {
     public Optional<User> getCurrentUser() {
         String header = request.getHeader(SecurityConstants.HEADER_STRING);
 
-        return userRepository.findByEmail(getUsernameFromToken(header));
+        return userRepository.findByUsername(getUsernameFromToken(header));
     }
 
     private String getUsernameFromToken(String header) {
