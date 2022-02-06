@@ -19,13 +19,9 @@ public class PermissionValidatorServiceImpl implements PermissionValidatorServic
 
     @Override
     public boolean authorize(Permission checkPermission) {
-        Optional<User> userExists = currentUserService.getCurrentUser();
+        User user = currentUserService.getCurrentUser();
 
-        if (!userExists.isPresent()) {
-            return false;
-        }
-
-        Set<Permission> permissions = userExists.get().getRole().getPermissions();
+        Set<Permission> permissions = user.getRole().getPermissions();
 
         for (Permission permission : permissions) {
             if (checkPermission.getName().equals(permission.getName())) {

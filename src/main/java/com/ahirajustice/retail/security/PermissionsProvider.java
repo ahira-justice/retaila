@@ -74,7 +74,7 @@ public class PermissionsProvider {
         admin.setPermissions(getAdminPermissions());
         roles.add(admin);
 
-        Role superAdmin = new Role(Roles.SUPERADMIN.name());
+        Role superAdmin = new Role(Roles.SUPERADMIN.name(), true);
         superAdmin.setPermissions(getSuperAdminPermissions());
         roles.add(superAdmin);
 

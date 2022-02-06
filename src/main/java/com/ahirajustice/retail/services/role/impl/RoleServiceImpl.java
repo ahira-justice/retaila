@@ -4,6 +4,7 @@ import com.ahirajustice.retail.dtos.role.RoleCreateDto;
 import com.ahirajustice.retail.dtos.role.RoleUpdateDto;
 import com.ahirajustice.retail.entities.Permission;
 import com.ahirajustice.retail.entities.Role;
+import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.exceptions.BadRequestException;
 import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.NotFoundException;
@@ -11,8 +12,10 @@ import com.ahirajustice.retail.mappings.role.RoleMappings;
 import com.ahirajustice.retail.repositories.PermissionRepository;
 import com.ahirajustice.retail.repositories.RoleRepository;
 import com.ahirajustice.retail.security.PermissionsProvider;
+import com.ahirajustice.retail.services.permission.PermissionService;
 import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.services.role.RoleService;
+import com.ahirajustice.retail.services.user.CurrentUserService;
 import com.ahirajustice.retail.validators.ValidatorUtils;
 import com.ahirajustice.retail.validators.role.RoleCreateDtoValidator;
 import com.ahirajustice.retail.validators.role.RoleUpdateDtoValidator;
@@ -21,7 +24,11 @@ import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +36,9 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
     private final PermissionRepository permissionRepository;
+    private final PermissionService permissionService;
     private final PermissionValidatorService permissionValidatorService;
+    private final CurrentUserService currentUserService;
 
     private final RoleMappings mappings = Mappers.getMapper(RoleMappings.class);
 
@@ -73,6 +82,11 @@ public class RoleServiceImpl implements RoleService {
             throw new ForbiddenException();
         }
 
+        User currentUser = currentUserService.getCurrentUser();
+        if (roleDto.isSystem() && !currentUser.getRole().isSystem()){
+            throw new ForbiddenException(currentUser.getUsername());
+        }
+
         Optional<Role> roleExists = roleRepository.findByName(roleDto.getName());
 
         if (roleExists.isPresent()) {
@@ -81,7 +95,13 @@ public class RoleServiceImpl implements RoleService {
 
         Set<Permission> permissions = new HashSet<>();
         for (long permissionId : roleDto.getPermissionIds()) {
-            permissions.add(permissionRepository.findById(permissionId).orElse(null));
+            Permission permission = permissionService.verifyPermissionExists(permissionId);
+
+            if (!roleDto.isSystem() && permission.isSystem()){
+                throw new BadRequestException("Cannot add system permission to non-system role");
+            }
+
+            permissions.add(permission);
         }
 
         Role role = mappings.roleCreateDtoToRole(roleDto);
