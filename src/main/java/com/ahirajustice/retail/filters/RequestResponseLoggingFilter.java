@@ -13,10 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ahirajustice.retail.constants.SecurityConstants;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -41,19 +39,12 @@ public class RequestResponseLoggingFilter extends GenericFilterBean{
         logResponse(request, response, processTime);
     }
 
-    private void logRequest(HttpServletRequest request) throws IOException {
+    private void logRequest(HttpServletRequest request) {
         String msg = "";
 
         if (!excludeFromRequestResponseLogger(request.getRequestURI(), request.getMethod())) {
             msg = String.format("Running request '%s > %s'", request.getMethod(), request.getRequestURI());
             log.info(msg);
-
-            if (HttpMethod.POST.matches(request.getMethod()) || HttpMethod.PUT.matches(request.getMethod())){
-                String requestBody = IOUtils.toString(request.getReader());
-                
-                msg = String.format("Request body '%s'", requestBody);
-                log.info(msg);
-            }
         }
     }
 
