@@ -127,6 +127,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserViewModel setUserPassword(User user, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+        user.setPassword(encodedPassword);
+        User updatedUser = userRepository.save(user);
+
+        return mappings.userToUserViewModel(updatedUser);
+    }
+
+    @Override
     public UserViewModel updateUser(UserUpdateDto userDto, long id) {
         ValidatorUtils<UserUpdateDto> validator = new ValidatorUtils<>();
         validator.validate(new UserUpdateDtoValidator(), userDto);
