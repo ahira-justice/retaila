@@ -13,7 +13,8 @@ public class SecurityConstants {
     // URLs
     public static final String[] EXCLUDE_FROM_AUTH_URLS = new String[] { 
         "/, GET",
-        "/api/auth/login, POST", 
+        "/api/auth/login, POST",
+        "/api/auth/forgot-password, POST",
         "/api/users, POST",
         "/api/user-tokens/verify, POST",
         "/api/retail/docs, GET",

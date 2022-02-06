@@ -5,13 +5,19 @@ import com.ahirajustice.retail.config.AppConfig;
 import com.ahirajustice.retail.config.SpringApplicationContext;
 import com.ahirajustice.retail.constants.SecurityConstants;
 import com.ahirajustice.retail.dtos.auth.AuthToken;
+import com.ahirajustice.retail.dtos.auth.ForgotPasswordRequest;
 import com.ahirajustice.retail.dtos.auth.LoginDto;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.enums.TimeFactor;
+import com.ahirajustice.retail.enums.UserTokenType;
 import com.ahirajustice.retail.exceptions.UnauthorizedException;
 import com.ahirajustice.retail.repositories.UserRepository;
 import com.ahirajustice.retail.services.auth.AuthService;
+import com.ahirajustice.retail.services.user.UserService;
+import com.ahirajustice.retail.services.usertoken.UserTokenMailingService;
+import com.ahirajustice.retail.services.usertoken.UserTokenService;
 import com.ahirajustice.retail.validators.ValidatorUtils;
+import com.ahirajustice.retail.validators.auth.ForgotPasswordRequestValidator;
 import com.ahirajustice.retail.validators.auth.LoginDtoValidator;
 import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
 import io.jsonwebtoken.Claims;
@@ -30,6 +36,9 @@ import java.util.Optional;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
+    private final UserService userService;
+    private final UserTokenService userTokenService;
+    private final UserTokenMailingService userTokenMailingService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AppConfig appConfig;
 
@@ -72,6 +81,18 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return authToken;
+    }
+
+    @Override
+    public void forgotPassword(ForgotPasswordRequest request) {
+        ValidatorUtils<ForgotPasswordRequest> validator = new ValidatorUtils<>();
+        validator.validate(new ForgotPasswordRequestValidator(), request);
+
+        User user = userService.verifyUserExists(request.getUsername());
+
+        String token = userTokenService.generateToken(user.getId(), UserTokenType.RESET_PASSWORD, appConfig.USER_TOKEN_VALIDITY_IN_SECONDS);
+
+        userTokenMailingService.sendOtpEmailToUser(token, user.getId());
     }
 
     private boolean verifyPassword(String password, String encryptedPassword) {

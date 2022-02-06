@@ -29,4 +29,7 @@ public class AppConfig {
 
     @Value("${app.config.user-token.keyspace}")
     public String USER_TOKEN_KEYSPACE;
+
+    @Value("${app.config.user-token.validity-in-seconds}")
+    public int USER_TOKEN_VALIDITY_IN_SECONDS;
 }
