@@ -7,7 +7,7 @@ public interface UserTokenService {
 
     String generateToken(long userId, UserTokenType tokenType, long validityInSecs);
 
-    boolean verifyToken(VerifyUserTokenRequest request);
+    void verifyToken(VerifyUserTokenRequest request);
 
     void useToken(long userId, UserTokenType tokenType, String token);
 
