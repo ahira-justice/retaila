@@ -1,5 +1,6 @@
 package com.ahirajustice.retail.controllers;
 
+import com.ahirajustice.retail.dtos.auth.ForgotPasswordRequest;
 import com.ahirajustice.retail.dtos.auth.LoginDto;
 import com.ahirajustice.retail.services.auth.AuthService;
 import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
@@ -39,6 +40,18 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     public LoginResponse login(@RequestBody LoginDto loginDto) {
         return authService.createAccessToken(loginDto);
+    }
+
+    @Operation(summary = "Forgot Password")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "204"),
+            }
+    )
+    @RequestMapping(path = "/forgot-password", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        authService.forgotPassword(request);
     }
 
 }
