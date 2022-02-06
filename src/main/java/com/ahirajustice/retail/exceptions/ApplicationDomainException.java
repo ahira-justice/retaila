@@ -11,12 +11,11 @@ public class ApplicationDomainException extends RuntimeException {
     private String code;
     private int statusCode;
 
-    public ApplicationDomainException(String message) {
-        super(message);
-    }
-
-    public ApplicationDomainException(String message, Throwable innerException) {
+    public ApplicationDomainException(String message, String code, int statusCode, Throwable innerException) {
         super(message, innerException);
+
+        this.code = code;
+        this.statusCode = statusCode;
     }
 
     public ApplicationDomainException(String message, String code, int statusCode) {
