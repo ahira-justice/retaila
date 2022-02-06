@@ -50,13 +50,20 @@ public class PermissionServiceImpl implements PermissionService {
             throw new ForbiddenException();
         }
 
+        Permission permission = verifyPermissionExists(id);
+
+        return mappings.permissionToPermissionViewModel(permission);
+    }
+
+    @Override
+    public Permission verifyPermissionExists(long id) {
         Optional<Permission> permissionExists = permissionRepository.findById(id);
 
         if (!permissionExists.isPresent()) {
             throw new NotFoundException(String.format("Permission with id: '%d' does not exist", id));
         }
 
-        return mappings.permissionToPermissionViewModel(permissionExists.get());
+        return permissionExists.get();
     }
 
 }
