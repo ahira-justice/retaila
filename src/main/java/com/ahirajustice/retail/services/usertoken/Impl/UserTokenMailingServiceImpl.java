@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 public class UserTokenMailingServiceImpl implements UserTokenMailingService {
 
     @Override
-    public void sendOtpEmailToUser(String otp) {
+    public void sendOtpEmailToUser(String token, long userId) {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void sendOtpSmsToUser(String otp) {
+    public void sendOtpSmsToUser(String token, long userId) {
         // TODO Auto-generated method stub
     }
 
