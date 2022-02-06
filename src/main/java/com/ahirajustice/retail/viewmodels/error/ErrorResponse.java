@@ -17,4 +17,8 @@ public class ErrorResponse {
         this.timestamp = LocalDateTime.now();
     }
 
+    public String getTimestamp() {
+        return this.timestamp.toString();
+    }
+
 }
