@@ -7,6 +7,7 @@ import com.ahirajustice.retail.constants.SecurityConstants;
 import com.ahirajustice.retail.dtos.auth.AuthToken;
 import com.ahirajustice.retail.dtos.auth.ForgotPasswordRequest;
 import com.ahirajustice.retail.dtos.auth.LoginDto;
+import com.ahirajustice.retail.dtos.auth.ResetPasswordRequest;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.enums.TimeFactor;
 import com.ahirajustice.retail.enums.UserTokenType;
@@ -19,7 +20,9 @@ import com.ahirajustice.retail.services.usertoken.UserTokenService;
 import com.ahirajustice.retail.validators.ValidatorUtils;
 import com.ahirajustice.retail.validators.auth.ForgotPasswordRequestValidator;
 import com.ahirajustice.retail.validators.auth.LoginDtoValidator;
+import com.ahirajustice.retail.validators.auth.ResetPasswordRequestValidator;
 import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
+import com.ahirajustice.retail.viewmodels.user.UserViewModel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -93,6 +96,18 @@ public class AuthServiceImpl implements AuthService {
         String token = userTokenService.generateToken(user.getId(), UserTokenType.RESET_PASSWORD, appConfig.USER_TOKEN_VALIDITY_IN_SECONDS);
 
         userTokenMailingService.sendOtpEmailToUser(token, user.getId());
+    }
+
+    @Override
+    public UserViewModel resetPassword(ResetPasswordRequest request) {
+        ValidatorUtils<ResetPasswordRequest> validator = new ValidatorUtils<>();
+        validator.validate(new ResetPasswordRequestValidator(), request);
+
+        User user = userService.verifyUserExists(request.getUsername());
+
+        userTokenService.useToken(user.getId(), UserTokenType.RESET_PASSWORD, request.getToken());
+
+        return userService.setUserPassword(user, request.getPassword());
     }
 
     private boolean verifyPassword(String password, String encryptedPassword) {

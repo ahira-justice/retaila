@@ -2,10 +2,12 @@ package com.ahirajustice.retail.controllers;
 
 import com.ahirajustice.retail.dtos.auth.ForgotPasswordRequest;
 import com.ahirajustice.retail.dtos.auth.LoginDto;
+import com.ahirajustice.retail.dtos.auth.ResetPasswordRequest;
 import com.ahirajustice.retail.services.auth.AuthService;
 import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
+import com.ahirajustice.retail.viewmodels.user.UserViewModel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,6 +54,19 @@ public class AuthController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void forgotPassword(@RequestBody ForgotPasswordRequest request) {
         authService.forgotPassword(request);
+    }
+
+    @Operation(summary = "Reset Password")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserViewModel.class)) }),
+                    @ApiResponse(responseCode = "422", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) })
+            }
+    )
+    @RequestMapping(path = "/reset-password", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public UserViewModel resetPassword(@RequestBody ResetPasswordRequest request) {
+        return authService.resetPassword(request);
     }
 
 }

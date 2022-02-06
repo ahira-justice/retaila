@@ -21,6 +21,8 @@ public interface UserService {
 
     UserViewModel createUser(UserCreateDto userDto);
 
+    UserViewModel setUserPassword(User user, String password);
+
     UserViewModel updateUser(UserUpdateDto userDto, long id);
 
 }
