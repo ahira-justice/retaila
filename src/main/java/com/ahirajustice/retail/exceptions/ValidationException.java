@@ -16,12 +16,12 @@ public class ValidationException extends ApplicationDomainException {
     private final Dictionary<String, String> failures;
 
     private ValidationException() {
-        super("One or more validation failures have occurred");
+        super("One or more validation failures have occurred", "UnprocessableEntity", 422);
         this.failures = new Hashtable<>();
     }
 
     public ValidationException(String message) {
-        super(message);
+        super(message, "UnprocessableEntity", 422);
         this.failures = new Hashtable<>();
     }
 
