@@ -5,18 +5,21 @@ import com.ahirajustice.retail.exceptions.NotFoundException;
 import com.ahirajustice.retail.exceptions.SystemErrorException;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(Exception ex, WebRequest request) {
+    protected ResponseEntity<ErrorResponse> handleException(Exception ex) {
+        log.info(ex.getMessage(), ex);
+
         if (ex instanceof ApplicationDomainException) {
             return handleApplicationDomainException((ApplicationDomainException) ex);
         } else if (ex instanceof NoHandlerFoundException) {
