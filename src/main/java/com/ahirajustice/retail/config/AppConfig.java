@@ -34,4 +34,7 @@ public class AppConfig {
 
     @Value("${app.config.user-token.validity-in-seconds}")
     private int userTokenValidityInSeconds;
+
+    @Value("${app.config.user-device.max-count}")
+    private int userDeviceMaxCount;
 }

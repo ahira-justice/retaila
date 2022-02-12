@@ -41,3 +41,5 @@ app:
       length: 6
       keyspace: 0123456789
       validity-in-seconds: 600
+    user-device:
+      max-count: 3
