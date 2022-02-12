@@ -42,7 +42,7 @@ public class CurrentUserServiceImpl implements CurrentUserService {
 
         String token = header.split(" ")[1];
 
-        return Jwts.parser().setSigningKey(appConfig.SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(appConfig.getSecretKey()).parseClaimsJws(token).getBody().getSubject();
     }
 
 }

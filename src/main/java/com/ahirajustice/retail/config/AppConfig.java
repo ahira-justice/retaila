@@ -1,35 +1,37 @@
 package com.ahirajustice.retail.config;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+@Getter
 @Component
 public class AppConfig {
 
     @Value("${app.config.access-token-expire-minutes}")
-    public int ACCESS_TOKEN_EXPIRE_MINUTES;
+    private int accessTokenExpireMinutes;
 
     @Value("${app.config.secret-key}")
-    public String SECRET_KEY;
+    private String secretKey;
 
     @Value("${app.config.superuser.email}")
-    public String SUPERUSER_EMAIL;
+    private String superuserEmail;
 
     @Value("${app.config.superuser.first-name}")
-    public String SUPERUSER_FIRST_NAME;
+    private String superuserFirstName;
 
     @Value("${app.config.superuser.last-name}")
-    public String SUPERUSER_LAST_NAME;
+    private String superuserLastName;
 
     @Value("${app.config.superuser.password}")
-    public String SUPERUSER_PASSWORD;
+    private String superuserPassword;
 
     @Value("${app.config.user-token.length}")
-    public int USER_TOKEN_LENGTH;
+    private int userTokenLength;
 
     @Value("${app.config.user-token.keyspace}")
-    public String USER_TOKEN_KEYSPACE;
+    private String userTokenKeyspace;
 
     @Value("${app.config.user-token.validity-in-seconds}")
-    public int USER_TOKEN_VALIDITY_IN_SECONDS;
+    private int userTokenValidityInSeconds;
 }

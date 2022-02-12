@@ -8,7 +8,6 @@ import com.ahirajustice.retail.entities.UserToken;
 import com.ahirajustice.retail.enums.UserTokenType;
 import com.ahirajustice.retail.exceptions.ValidationException;
 import com.ahirajustice.retail.repositories.UserTokenRepository;
-import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.services.user.UserService;
 import com.ahirajustice.retail.services.usertoken.UserTokenService;
 import com.ahirajustice.retail.validators.ValidatorUtils;
@@ -104,6 +103,6 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
 
     private String generateToken() {
-        return CommonHelper.generateRandomString(appConfig.USER_TOKEN_LENGTH, appConfig.USER_TOKEN_KEYSPACE);
+        return CommonHelper.generateRandomString(appConfig.getUserTokenLength(), appConfig.getUserTokenKeyspace());
     }
 }

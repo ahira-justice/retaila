@@ -81,7 +81,7 @@ public class DatabaseSeeder implements ApplicationRunner {
 
     private void seedSuperAdminUser() {
         try {
-            Optional<User> superAdminExists = userRepository.findByUsername(appConfig.SUPERUSER_EMAIL);
+            Optional<User> superAdminExists = userRepository.findByUsername(appConfig.getSuperuserEmail());
 
             if (superAdminExists.isPresent()) {
                 return;
@@ -89,12 +89,12 @@ public class DatabaseSeeder implements ApplicationRunner {
 
             User superAdmin = new User();
             Role superAdminRole = roleRepository.findByName(Roles.SUPERADMIN.name()).orElse(null);
-            superAdmin.setEmail(appConfig.SUPERUSER_EMAIL);
+            superAdmin.setEmail(appConfig.getSuperuserEmail());
             superAdmin.setUsername(superAdmin.getEmail());
-            superAdmin.setFirstName(appConfig.SUPERUSER_FIRST_NAME);
-            superAdmin.setLastName(appConfig.SUPERUSER_LAST_NAME);
+            superAdmin.setFirstName(appConfig.getSuperuserFirstName());
+            superAdmin.setLastName(appConfig.getSuperuserLastName());
             superAdmin.setEmailVerified(true);
-            superAdmin.setPassword(passwordEncoder.encode(appConfig.SUPERUSER_PASSWORD));
+            superAdmin.setPassword(passwordEncoder.encode(appConfig.getSuperuserPassword()));
             superAdmin.setRole(superAdminRole);
 
             userRepository.save(superAdmin);

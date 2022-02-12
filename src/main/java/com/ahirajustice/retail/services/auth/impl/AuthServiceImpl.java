@@ -54,12 +54,12 @@ public class AuthServiceImpl implements AuthService {
 
         String subject = loginDto.getUsername();
 
-        int expiry = loginDto.getExpires() > 0 ? loginDto.getExpires() : appConfig.ACCESS_TOKEN_EXPIRE_MINUTES;
+        int expiry = loginDto.getExpires() > 0 ? loginDto.getExpires() : appConfig.getAccessTokenExpireMinutes();
 
         String token = Jwts.builder()
                 .setSubject(subject)
                 .setExpiration(new Date(System.currentTimeMillis() + CommonHelper.convertToMillis(expiry, TimeFactor.MINUTES)))
-                .signWith(SignatureAlgorithm.HS512, appConfig.SECRET_KEY).compact();
+                .signWith(SignatureAlgorithm.HS512, appConfig.getSecretKey()).compact();
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setAccessToken(token);
@@ -75,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
         AppConfig appConfig = (AppConfig) SpringApplicationContext.getBean("appConfig");
 
         try{
-            Claims claims = Jwts.parser().setSigningKey(appConfig.SECRET_KEY).parseClaimsJws(token).getBody();
+            Claims claims = Jwts.parser().setSigningKey(appConfig.getSecretKey()).parseClaimsJws(token).getBody();
             authToken.setUsername(claims.getSubject());
             authToken.setExpiry(claims.getExpiration());
         }
@@ -93,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userService.verifyUserExists(request.getUsername());
 
-        String token = userTokenService.generateToken(user.getId(), UserTokenType.RESET_PASSWORD, appConfig.USER_TOKEN_VALIDITY_IN_SECONDS);
+        String token = userTokenService.generateToken(user.getId(), UserTokenType.RESET_PASSWORD, appConfig.getUserTokenValidityInSeconds());
 
         userTokenMailingService.sendOtpEmailToUser(token, user.getId());
     }
