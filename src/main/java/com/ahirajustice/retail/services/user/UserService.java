@@ -11,8 +11,6 @@ public interface UserService {
 
     List<UserViewModel> getUsers();
 
-    UserViewModel getUser(String username);
-
     UserViewModel getUser(long id);
 
     User verifyUserExists(long id);

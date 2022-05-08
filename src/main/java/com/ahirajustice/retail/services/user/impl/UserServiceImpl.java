@@ -59,17 +59,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserViewModel getUser(String username) {
-        if (!permissionValidatorService.authorize(PermissionsProvider.CAN_VIEW_USER)) {
-            throw new ForbiddenException();
-        }
-
-        User user = verifyUserExists(username);
-
-        return mappings.userToUserViewModel(user);
-    }
-
-    @Override
     public UserViewModel getUser(long id) {
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_VIEW_USER)) {
             throw new ForbiddenException();
