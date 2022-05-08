@@ -9,11 +9,12 @@ import com.ahirajustice.retail.viewmodels.user.UserViewModel;
 
 public interface AuthService {
 
-    LoginResponse createAccessToken(LoginDto loginDto);
+    LoginResponse login(LoginDto loginDto);
 
     AuthToken decodeJwt(String token);
 
     void forgotPassword(ForgotPasswordRequest request);
 
     UserViewModel resetPassword(ResetPasswordRequest request);
+
 }

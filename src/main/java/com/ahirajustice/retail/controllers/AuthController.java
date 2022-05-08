@@ -41,7 +41,7 @@ public class AuthController {
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public LoginResponse login(@RequestBody LoginDto loginDto) {
-        return authService.createAccessToken(loginDto);
+        return authService.login(loginDto);
     }
 
     @Operation(summary = "Forgot Password")
