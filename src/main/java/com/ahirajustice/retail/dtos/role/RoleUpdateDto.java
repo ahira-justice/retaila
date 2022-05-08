@@ -1,26 +1,17 @@
 package com.ahirajustice.retail.dtos.role;
 
+import lombok.*;
+
 import java.util.List;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RoleUpdateDto {
 
     private String name;
     private List<Long> permissionIds;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Long> getPermissionIds() {
-        return permissionIds;
-    }
-
-    public void setPermissionIds(List<Long> permissionIds) {
-        this.permissionIds = permissionIds;
-    }
 
 }

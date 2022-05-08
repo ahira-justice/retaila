@@ -1,26 +1,17 @@
 package com.ahirajustice.retail.dtos.auth;
 
+import lombok.*;
+
 import java.util.Date;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthToken {
-
+    
     private String username;
     private Date expiry;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Date getExpiry() {
-        return expiry;
-    }
-
-    public void setExpiry(Date expiry) {
-        this.expiry = expiry;
-    }
 
 }
