@@ -1,11 +1,11 @@
 package com.ahirajustice.retail.security;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.ahirajustice.retail.entities.Permission;
 import com.ahirajustice.retail.entities.Role;
 import com.ahirajustice.retail.enums.Roles;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class PermissionsProvider {
 

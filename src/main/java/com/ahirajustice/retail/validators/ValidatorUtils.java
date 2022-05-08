@@ -1,12 +1,11 @@
 package com.ahirajustice.retail.validators;
 
-import java.util.Collection;
-
-import com.ahirajustice.retail.exceptions.ValidationException;
-
 import br.com.fluentvalidator.AbstractValidator;
 import br.com.fluentvalidator.context.Error;
 import br.com.fluentvalidator.context.ValidationResult;
+import com.ahirajustice.retail.exceptions.ValidationException;
+
+import java.util.Collection;
 
 public class ValidatorUtils<T> {
 

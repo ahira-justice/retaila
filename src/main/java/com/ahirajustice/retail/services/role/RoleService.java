@@ -1,10 +1,10 @@
 package com.ahirajustice.retail.services.role;
 
-import java.util.List;
-
 import com.ahirajustice.retail.dtos.role.RoleCreateDto;
 import com.ahirajustice.retail.dtos.role.RoleUpdateDto;
 import com.ahirajustice.retail.viewmodels.role.RoleViewModel;
+
+import java.util.List;
 
 public interface RoleService {
 

@@ -1,9 +1,5 @@
 package com.ahirajustice.retail.services.user.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import com.ahirajustice.retail.dtos.user.UserCreateDto;
 import com.ahirajustice.retail.dtos.user.UserUpdateDto;
 import com.ahirajustice.retail.entities.Role;
@@ -23,12 +19,14 @@ import com.ahirajustice.retail.validators.ValidatorUtils;
 import com.ahirajustice.retail.validators.user.UserCreateDtoValidator;
 import com.ahirajustice.retail.validators.user.UserUpdateDtoValidator;
 import com.ahirajustice.retail.viewmodels.user.UserViewModel;
-
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

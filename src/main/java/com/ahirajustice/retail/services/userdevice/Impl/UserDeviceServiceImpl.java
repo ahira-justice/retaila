@@ -1,11 +1,11 @@
 package com.ahirajustice.retail.services.userdevice.Impl;
 
 
-import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.entities.UserDevice;
 import com.ahirajustice.retail.enums.UserDeviceType;
 import com.ahirajustice.retail.exceptions.ValidationException;
+import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.repositories.UserDeviceRepository;
 import com.ahirajustice.retail.services.userdevice.UserDeviceService;
 import lombok.RequiredArgsConstructor;

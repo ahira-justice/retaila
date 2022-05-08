@@ -1,9 +1,9 @@
 package com.ahirajustice.retail.common;
 
+import com.ahirajustice.retail.enums.TimeFactor;
+
 import java.security.SecureRandom;
 import java.util.Random;
-
-import com.ahirajustice.retail.enums.TimeFactor;
 
 public class CommonHelper {
 

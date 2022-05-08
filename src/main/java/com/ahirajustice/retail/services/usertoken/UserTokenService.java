@@ -1,7 +1,7 @@
 package com.ahirajustice.retail.services.usertoken;
 
-import com.ahirajustice.retail.enums.UserTokenType;
 import com.ahirajustice.retail.dtos.usertoken.VerifyUserTokenRequest;
+import com.ahirajustice.retail.enums.UserTokenType;
 
 public interface UserTokenService {
 

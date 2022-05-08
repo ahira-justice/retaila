@@ -1,8 +1,11 @@
 package com.ahirajustice.retail.filters;
 
-import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
+import com.ahirajustice.retail.constants.SecurityConstants;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -10,15 +13,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.ahirajustice.retail.constants.SecurityConstants;
-
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
-
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 
 @Component
 @Order(Ordered.LOWEST_PRECEDENCE)

@@ -1,12 +1,12 @@
 package com.ahirajustice.retail.viewmodels.role;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.ahirajustice.retail.viewmodels.BaseViewModel;
 import com.ahirajustice.retail.viewmodels.permission.PermissionViewModel;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter

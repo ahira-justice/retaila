@@ -1,24 +1,23 @@
 package com.ahirajustice.retail.data;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
-import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.entities.Permission;
 import com.ahirajustice.retail.entities.Role;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.enums.Roles;
+import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.repositories.PermissionRepository;
 import com.ahirajustice.retail.repositories.RoleRepository;
 import com.ahirajustice.retail.repositories.UserRepository;
 import com.ahirajustice.retail.security.PermissionsProvider;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor

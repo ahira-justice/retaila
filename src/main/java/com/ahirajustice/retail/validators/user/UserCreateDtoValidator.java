@@ -1,11 +1,10 @@
 package com.ahirajustice.retail.validators.user;
 
-import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
-import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;
-
+import br.com.fluentvalidator.AbstractValidator;
 import com.ahirajustice.retail.dtos.user.UserCreateDto;
 
-import br.com.fluentvalidator.AbstractValidator;
+import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
+import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;
 
 public class UserCreateDtoValidator extends AbstractValidator<UserCreateDto> {
 

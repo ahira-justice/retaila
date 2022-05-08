@@ -1,9 +1,5 @@
 package com.ahirajustice.retail.services.permission.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import com.ahirajustice.retail.entities.Permission;
 import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.NotFoundException;
@@ -13,10 +9,13 @@ import com.ahirajustice.retail.security.PermissionsProvider;
 import com.ahirajustice.retail.services.permission.PermissionService;
 import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.viewmodels.permission.PermissionViewModel;
-
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

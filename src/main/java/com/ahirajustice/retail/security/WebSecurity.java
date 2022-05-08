@@ -1,7 +1,6 @@
 package com.ahirajustice.retail.security;
 
 import com.ahirajustice.retail.filters.AuthorizationFilter;
-
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;

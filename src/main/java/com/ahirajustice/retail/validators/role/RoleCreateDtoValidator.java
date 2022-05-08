@@ -1,13 +1,12 @@
 package com.ahirajustice.retail.validators.role;
 
-import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
-import static br.com.fluentvalidator.predicate.CollectionPredicate.empty;
-import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;
-
+import br.com.fluentvalidator.AbstractValidator;
 import com.ahirajustice.retail.common.CommonHelper;
 import com.ahirajustice.retail.dtos.role.RoleCreateDto;
 
-import br.com.fluentvalidator.AbstractValidator;
+import static br.com.fluentvalidator.predicate.CollectionPredicate.empty;
+import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
+import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;
 
 public class RoleCreateDtoValidator extends AbstractValidator<RoleCreateDto> {
 

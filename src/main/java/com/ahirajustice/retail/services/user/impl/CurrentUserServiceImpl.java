@@ -1,9 +1,9 @@
 package com.ahirajustice.retail.services.user.impl;
 
-import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.constants.SecurityConstants;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.exceptions.ValidationException;
+import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.repositories.UserRepository;
 import com.ahirajustice.retail.services.user.CurrentUserService;
 import io.jsonwebtoken.Jwts;

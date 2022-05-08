@@ -1,12 +1,12 @@
 package com.ahirajustice.retail.services.usertoken.impl;
 
 import com.ahirajustice.retail.common.CommonHelper;
-import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.dtos.usertoken.VerifyUserTokenRequest;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.entities.UserToken;
 import com.ahirajustice.retail.enums.UserTokenType;
 import com.ahirajustice.retail.exceptions.ValidationException;
+import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.repositories.UserTokenRepository;
 import com.ahirajustice.retail.services.user.UserService;
 import com.ahirajustice.retail.services.usertoken.UserTokenService;

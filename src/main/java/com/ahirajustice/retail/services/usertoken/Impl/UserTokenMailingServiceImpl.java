@@ -1,7 +1,6 @@
 package com.ahirajustice.retail.services.usertoken.impl;
 
 import com.ahirajustice.retail.services.usertoken.UserTokenMailingService;
-
 import org.springframework.stereotype.Service;
 
 @Service
