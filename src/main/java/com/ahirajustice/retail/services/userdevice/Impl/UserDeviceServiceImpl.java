@@ -1,7 +1,7 @@
 package com.ahirajustice.retail.services.userdevice.Impl;
 
 
-import com.ahirajustice.retail.config.AppConfig;
+import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.entities.UserDevice;
 import com.ahirajustice.retail.enums.UserDeviceType;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserDeviceServiceImpl implements UserDeviceService {
 
-    private final AppConfig appConfig;
+    private final AppProperties appProperties;
     private final UserDeviceRepository userDeviceRepository;
 
     @Override
@@ -35,8 +35,8 @@ public class UserDeviceServiceImpl implements UserDeviceService {
 
         long authorizedUserDeviceCount = user.getUserDevices().stream().filter(UserDevice::isAuthorized).count();
 
-        if (authorizedUserDeviceCount >= appConfig.getUserDeviceMaxCount()){
-            long pageSize = authorizedUserDeviceCount - (appConfig.getUserDeviceMaxCount() - 1);
+        if (authorizedUserDeviceCount >= appProperties.getUserDeviceMaxCount()){
+            long pageSize = authorizedUserDeviceCount - (appProperties.getUserDeviceMaxCount() - 1);
             List<UserDevice> userDevicesToDeauthorize = userDeviceRepository.findByUser_IdAndIsAuthorizedTrue(user.getId(), PageRequest.of(0, (int) pageSize, Sort.by("authorizedOn")));
 
             for (UserDevice userDevice : userDevicesToDeauthorize) {

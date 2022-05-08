@@ -1,7 +1,7 @@
 package com.ahirajustice.retail.services.usertoken.impl;
 
 import com.ahirajustice.retail.common.CommonHelper;
-import com.ahirajustice.retail.config.AppConfig;
+import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.dtos.usertoken.VerifyUserTokenRequest;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.entities.UserToken;
@@ -28,7 +28,7 @@ import java.util.Optional;
 @Slf4j
 public class UserTokenServiceImpl implements UserTokenService {
 
-    private final AppConfig appConfig;
+    private final AppProperties appProperties;
     private final UserTokenRepository userTokenRepository;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
@@ -103,6 +103,6 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
 
     private String generateToken() {
-        return CommonHelper.generateRandomString(appConfig.getUserTokenLength(), appConfig.getUserTokenKeyspace());
+        return CommonHelper.generateRandomString(appProperties.getUserTokenLength(), appProperties.getUserTokenKeyspace());
     }
 }

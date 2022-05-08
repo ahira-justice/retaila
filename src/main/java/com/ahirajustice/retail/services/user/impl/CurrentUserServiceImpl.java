@@ -1,6 +1,6 @@
 package com.ahirajustice.retail.services.user.impl;
 
-import com.ahirajustice.retail.config.AppConfig;
+import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.constants.SecurityConstants;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.exceptions.ValidationException;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CurrentUserServiceImpl implements CurrentUserService {
 
-    private final AppConfig appConfig;
+    private final AppProperties appProperties;
     private final HttpServletRequest request;
     private final UserRepository userRepository;
 
@@ -42,7 +42,7 @@ public class CurrentUserServiceImpl implements CurrentUserService {
 
         String token = header.split(" ")[1];
 
-        return Jwts.parser().setSigningKey(appConfig.getSecretKey()).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(appProperties.getSecretKey()).parseClaimsJws(token).getBody().getSubject();
     }
 
 }

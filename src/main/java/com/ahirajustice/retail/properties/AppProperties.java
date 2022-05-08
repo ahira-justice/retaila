@@ -1,4 +1,4 @@
-package com.ahirajustice.retail.config;
+package com.ahirajustice.retail.properties;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Component
-public class AppConfig {
+public class AppProperties {
 
     @Value("${app.config.access-token-expire-minutes}")
     private int accessTokenExpireMinutes;

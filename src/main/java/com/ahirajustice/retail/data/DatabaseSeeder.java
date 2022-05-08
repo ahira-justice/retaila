@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import com.ahirajustice.retail.config.AppConfig;
+import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.entities.Permission;
 import com.ahirajustice.retail.entities.Role;
 import com.ahirajustice.retail.entities.User;
@@ -29,7 +29,7 @@ public class DatabaseSeeder implements ApplicationRunner {
     private final PermissionRepository permissionRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
-    private final AppConfig appConfig;
+    private final AppProperties appProperties;
 
     private void installPermissions() {
         Set<Permission> permissions = PermissionsProvider.getAllPermissions();
@@ -81,7 +81,7 @@ public class DatabaseSeeder implements ApplicationRunner {
 
     private void seedSuperAdminUser() {
         try {
-            Optional<User> superAdminExists = userRepository.findByUsername(appConfig.getSuperuserEmail());
+            Optional<User> superAdminExists = userRepository.findByUsername(appProperties.getSuperuserEmail());
 
             if (superAdminExists.isPresent()) {
                 return;
@@ -89,12 +89,12 @@ public class DatabaseSeeder implements ApplicationRunner {
 
             User superAdmin = new User();
             Role superAdminRole = roleRepository.findByName(Roles.SUPERADMIN.name()).orElse(null);
-            superAdmin.setEmail(appConfig.getSuperuserEmail());
+            superAdmin.setEmail(appProperties.getSuperuserEmail());
             superAdmin.setUsername(superAdmin.getEmail());
-            superAdmin.setFirstName(appConfig.getSuperuserFirstName());
-            superAdmin.setLastName(appConfig.getSuperuserLastName());
+            superAdmin.setFirstName(appProperties.getSuperuserFirstName());
+            superAdmin.setLastName(appProperties.getSuperuserLastName());
             superAdmin.setEmailVerified(true);
-            superAdmin.setPassword(passwordEncoder.encode(appConfig.getSuperuserPassword()));
+            superAdmin.setPassword(passwordEncoder.encode(appProperties.getSuperuserPassword()));
             superAdmin.setRole(superAdminRole);
 
             userRepository.save(superAdmin);

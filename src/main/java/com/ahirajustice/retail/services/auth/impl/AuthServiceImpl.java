@@ -1,7 +1,7 @@
 package com.ahirajustice.retail.services.auth.impl;
 
 import com.ahirajustice.retail.common.CommonHelper;
-import com.ahirajustice.retail.config.AppConfig;
+import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.config.SpringApplicationContext;
 import com.ahirajustice.retail.constants.SecurityConstants;
 import com.ahirajustice.retail.dtos.auth.AuthToken;
@@ -43,10 +43,10 @@ public class AuthServiceImpl implements AuthService {
     private final UserTokenService userTokenService;
     private final UserTokenMailingService userTokenMailingService;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final AppConfig appConfig;
+    private final AppProperties appProperties;
 
     @Override
-    public LoginResponse createAccessToken(LoginDto loginDto) {
+    public LoginResponse login(LoginDto loginDto) {
         ValidatorUtils<LoginDto> validator = new ValidatorUtils<>();
         validator.validate(new LoginDtoValidator(), loginDto);
 
@@ -54,12 +54,12 @@ public class AuthServiceImpl implements AuthService {
 
         String subject = loginDto.getUsername();
 
-        int expiry = loginDto.getExpires() > 0 ? loginDto.getExpires() : appConfig.getAccessTokenExpireMinutes();
+        int expiry = loginDto.getExpires() > 0 ? loginDto.getExpires() : appProperties.getAccessTokenExpireMinutes();
 
         String token = Jwts.builder()
                 .setSubject(subject)
                 .setExpiration(new Date(System.currentTimeMillis() + CommonHelper.convertToMillis(expiry, TimeFactor.MINUTES)))
-                .signWith(SignatureAlgorithm.HS512, appConfig.getSecretKey()).compact();
+                .signWith(SignatureAlgorithm.HS512, appProperties.getSecretKey()).compact();
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setAccessToken(token);
@@ -72,10 +72,10 @@ public class AuthServiceImpl implements AuthService {
     public AuthToken decodeJwt(String token) {
         AuthToken authToken = new AuthToken();
 
-        AppConfig appConfig = (AppConfig) SpringApplicationContext.getBean("appConfig");
+        AppProperties appProperties = (AppProperties) SpringApplicationContext.getBean("appConfig");
 
         try{
-            Claims claims = Jwts.parser().setSigningKey(appConfig.getSecretKey()).parseClaimsJws(token).getBody();
+            Claims claims = Jwts.parser().setSigningKey(appProperties.getSecretKey()).parseClaimsJws(token).getBody();
             authToken.setUsername(claims.getSubject());
             authToken.setExpiry(claims.getExpiration());
         }
@@ -93,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userService.verifyUserExists(request.getUsername());
 
-        String token = userTokenService.generateToken(user.getId(), UserTokenType.RESET_PASSWORD, appConfig.getUserTokenValidityInSeconds());
+        String token = userTokenService.generateToken(user.getId(), UserTokenType.RESET_PASSWORD, appProperties.getUserTokenValidityInSeconds());
 
         userTokenMailingService.sendOtpEmailToUser(token, user.getId());
     }
