@@ -1,20 +1,20 @@
 package com.ahirajustice.retail.viewmodels.error;
 
-import java.util.Dictionary;
+import java.util.Map;
 
 public class ValidationErrorResponse extends ErrorResponse {
     
-    private Dictionary<String, String> errors;
+    private Map<String, String> errors;
 
     public ValidationErrorResponse() {
         super();
     }
 
-    public Dictionary<String, String> getErrors() {
+    public Map<String, String> getErrors() {
         return errors;
     }
 
-    public void setErrors(Dictionary<String, String> errors) {
+    public void setErrors(Map<String, String> errors) {
         this.errors = errors;
     }
 }

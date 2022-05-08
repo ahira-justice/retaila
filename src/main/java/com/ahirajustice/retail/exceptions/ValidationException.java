@@ -1,19 +1,18 @@
 package com.ahirajustice.retail.exceptions;
 
-import java.util.Collection;
-import java.util.Dictionary;
-import java.util.Hashtable;
-
+import br.com.fluentvalidator.context.Error;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
-
-import br.com.fluentvalidator.context.Error;
 import lombok.Getter;
+
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Map;
 
 @Getter
 public class ValidationException extends ApplicationDomainException {
 
-    private final Dictionary<String, String> failures;
+    private final Map<String, String> failures;
 
     private ValidationException() {
         super("One or more validation failures have occurred", "UnprocessableEntity", 422);
