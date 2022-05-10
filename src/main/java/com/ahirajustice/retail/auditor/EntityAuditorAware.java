@@ -1,7 +1,6 @@
 package com.ahirajustice.retail.auditor;
 
 import com.ahirajustice.retail.entities.User;
-import com.ahirajustice.retail.exceptions.ValidationException;
 import com.ahirajustice.retail.services.user.CurrentUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.AuditorAware;
