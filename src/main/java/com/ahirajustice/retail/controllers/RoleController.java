@@ -1,7 +1,7 @@
 package com.ahirajustice.retail.controllers;
 
-import com.ahirajustice.retail.dtos.role.RoleCreateDto;
-import com.ahirajustice.retail.dtos.role.RoleUpdateDto;
+import com.ahirajustice.retail.requests.role.RoleCreateRequest;
+import com.ahirajustice.retail.requests.role.RoleUpdateRequest;
 import com.ahirajustice.retail.services.role.RoleService;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
@@ -71,8 +71,8 @@ public class RoleController {
     )
     @RequestMapping(path = "", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public RoleViewModel createRole(@RequestBody RoleCreateDto roleDto) {
-        return roleService.createRole(roleDto);
+    public RoleViewModel createRole(@RequestBody RoleCreateRequest request) {
+        return roleService.createRole(request);
     }
 
     @Operation(summary = "Update Role", security = { @SecurityRequirement(name = "bearer") })
@@ -87,8 +87,8 @@ public class RoleController {
     )
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public RoleViewModel updateRole(@PathVariable long id, @RequestBody RoleUpdateDto roleDto) {
-        return roleService.updateRole(roleDto, id);
+    public RoleViewModel updateRole(@PathVariable long id, @RequestBody RoleUpdateRequest request) {
+        return roleService.updateRole(request, id);
     }
 
 }

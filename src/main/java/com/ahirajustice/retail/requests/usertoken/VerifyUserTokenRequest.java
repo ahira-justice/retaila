@@ -1,4 +1,4 @@
-package com.ahirajustice.retail.dtos.user;
+package com.ahirajustice.retail.requests.usertoken;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,12 +11,12 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCreateDto {
+public class VerifyUserTokenRequest {
 
     private String username;
-    private String email;
-    private String password;
-    private String firstName;
-    private String lastName;
+
+    private String tokenType;
+
+    private String token;
 
 }

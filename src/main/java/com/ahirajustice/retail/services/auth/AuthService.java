@@ -1,15 +1,15 @@
 package com.ahirajustice.retail.services.auth;
 
 import com.ahirajustice.retail.dtos.auth.AuthToken;
-import com.ahirajustice.retail.dtos.auth.ForgotPasswordRequest;
-import com.ahirajustice.retail.dtos.auth.LoginDto;
-import com.ahirajustice.retail.dtos.auth.ResetPasswordRequest;
+import com.ahirajustice.retail.requests.auth.ForgotPasswordRequest;
+import com.ahirajustice.retail.requests.auth.LoginRequest;
+import com.ahirajustice.retail.requests.auth.ResetPasswordRequest;
 import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
 import com.ahirajustice.retail.viewmodels.user.UserViewModel;
 
 public interface AuthService {
 
-    LoginResponse login(LoginDto loginDto);
+    LoginResponse login(LoginRequest loginRequest);
 
     AuthToken decodeJwt(String token);
 

@@ -41,5 +41,12 @@ app:
       length: 6
       keyspace: 0123456789
       validity-in-seconds: 600
+    client:
+      identifier:
+        length: 20
+        keyspace: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
+      secret:
+        length: 32
+        keyspace: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
     user-device:
       max-count: 3

@@ -1,7 +1,7 @@
 package com.ahirajustice.retail.validators.usertoken;
 
 import br.com.fluentvalidator.AbstractValidator;
-import com.ahirajustice.retail.dtos.usertoken.VerifyUserTokenRequest;
+import com.ahirajustice.retail.requests.usertoken.VerifyUserTokenRequest;
 
 import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
 import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;

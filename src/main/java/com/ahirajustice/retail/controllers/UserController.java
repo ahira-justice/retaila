@@ -1,7 +1,8 @@
 package com.ahirajustice.retail.controllers;
 
-import com.ahirajustice.retail.dtos.user.UserCreateDto;
-import com.ahirajustice.retail.dtos.user.UserUpdateDto;
+import com.ahirajustice.retail.queries.SearchUsersQuery;
+import com.ahirajustice.retail.requests.user.UserCreateRequest;
+import com.ahirajustice.retail.requests.user.UserUpdateRequest;
 import com.ahirajustice.retail.services.user.UserService;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Tag(name = "Users")
 @RestController
@@ -33,7 +33,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(summary = "Get Users", security = { @SecurityRequirement(name = "bearer") })
+    @Operation(summary = "Search Users", security = { @SecurityRequirement(name = "bearer") })
     @ApiResponses(
         value = {
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserViewModel.class))) }),
@@ -42,8 +42,8 @@ public class UserController {
     )
     @RequestMapping(path = "", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<UserViewModel> getUsers() {
-        return userService.getUsers();
+    public Page<UserViewModel> searchUsers(SearchUsersQuery query) {
+        return userService.searchUsers(query);
     }
 
     @Operation(summary = "Get User", security = { @SecurityRequirement(name = "bearer") })
@@ -70,8 +70,8 @@ public class UserController {
     )
     @RequestMapping(path = "", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public UserViewModel createUser(@RequestBody UserCreateDto userDto) {
-        return userService.createUser(userDto);
+    public UserViewModel createUser(@RequestBody UserCreateRequest request) {
+        return userService.createUser(request);
     }
 
     @Operation(summary = "Update User", security = { @SecurityRequirement(name = "bearer") })
@@ -86,8 +86,8 @@ public class UserController {
     )
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public UserViewModel updateUser(@PathVariable long id, @RequestBody UserUpdateDto userDto) {
-        return userService.updateUser(userDto, id);
+    public UserViewModel updateUser(@PathVariable long id, @RequestBody UserUpdateRequest request) {
+        return userService.updateUser(request, id);
     }
 
 }

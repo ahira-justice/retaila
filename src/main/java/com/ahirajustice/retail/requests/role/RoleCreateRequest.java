@@ -1,4 +1,4 @@
-package com.ahirajustice.retail.dtos.role;
+package com.ahirajustice.retail.requests.role;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class RoleCreateDto {
+public class RoleCreateRequest {
 
     private String name;
 

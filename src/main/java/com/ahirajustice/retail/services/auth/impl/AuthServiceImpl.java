@@ -4,9 +4,9 @@ import com.ahirajustice.retail.common.CommonHelper;
 import com.ahirajustice.retail.config.SpringApplicationContext;
 import com.ahirajustice.retail.constants.SecurityConstants;
 import com.ahirajustice.retail.dtos.auth.AuthToken;
-import com.ahirajustice.retail.dtos.auth.ForgotPasswordRequest;
-import com.ahirajustice.retail.dtos.auth.LoginDto;
-import com.ahirajustice.retail.dtos.auth.ResetPasswordRequest;
+import com.ahirajustice.retail.requests.auth.ForgotPasswordRequest;
+import com.ahirajustice.retail.requests.auth.LoginRequest;
+import com.ahirajustice.retail.requests.auth.ResetPasswordRequest;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.enums.TimeFactor;
 import com.ahirajustice.retail.enums.UserTokenType;
@@ -19,7 +19,7 @@ import com.ahirajustice.retail.services.usertoken.UserTokenMailingService;
 import com.ahirajustice.retail.services.usertoken.UserTokenService;
 import com.ahirajustice.retail.validators.ValidatorUtils;
 import com.ahirajustice.retail.validators.auth.ForgotPasswordRequestValidator;
-import com.ahirajustice.retail.validators.auth.LoginDtoValidator;
+import com.ahirajustice.retail.validators.auth.LoginRequestValidator;
 import com.ahirajustice.retail.validators.auth.ResetPasswordRequestValidator;
 import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
 import com.ahirajustice.retail.viewmodels.user.UserViewModel;
@@ -46,15 +46,15 @@ public class AuthServiceImpl implements AuthService {
     private final AppProperties appProperties;
 
     @Override
-    public LoginResponse login(LoginDto loginDto) {
-        ValidatorUtils<LoginDto> validator = new ValidatorUtils<>();
-        validator.validate(new LoginDtoValidator(), loginDto);
+    public LoginResponse login(LoginRequest loginRequest) {
+        ValidatorUtils<LoginRequest> validator = new ValidatorUtils<>();
+        validator.validate(new LoginRequestValidator(), loginRequest);
 
-        authenticateUser(loginDto);
+        authenticateUser(loginRequest);
 
-        String subject = loginDto.getUsername();
+        String subject = loginRequest.getUsername();
 
-        int expiry = loginDto.getExpires() > 0 ? loginDto.getExpires() : appProperties.getAccessTokenExpireMinutes();
+        int expiry = loginRequest.getExpires() > 0 ? loginRequest.getExpires() : appProperties.getAccessTokenExpireMinutes();
 
         String token = Jwts.builder()
                 .setSubject(subject)
@@ -93,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userService.verifyUserExists(request.getUsername());
 
-        String token = userTokenService.generateToken(user.getId(), UserTokenType.RESET_PASSWORD, appProperties.getUserTokenValidityInSeconds());
+        String token = userTokenService.generateToken(user, UserTokenType.RESET_PASSWORD, appProperties.getUserTokenValidityInSeconds());
 
         userTokenMailingService.sendOtpEmailToUser(token, user.getId());
     }
@@ -105,7 +105,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userService.verifyUserExists(request.getUsername());
 
-        userTokenService.useToken(user.getId(), UserTokenType.RESET_PASSWORD, request.getToken());
+        userTokenService.useToken(user, UserTokenType.RESET_PASSWORD, request.getToken());
 
         return userService.setUserPassword(user, request.getPassword());
     }
@@ -114,14 +114,14 @@ public class AuthServiceImpl implements AuthService {
         return passwordEncoder.matches(password, encryptedPassword);
     }
 
-    private void authenticateUser(LoginDto loginDto) {
-        Optional<User> userExists = userRepository.findByUsername(loginDto.getUsername());
+    private void authenticateUser(LoginRequest loginRequest) {
+        Optional<User> userExists = userRepository.findByUsername(loginRequest.getUsername());
 
         if (!userExists.isPresent()) {
             throw new UnauthorizedException("Incorrect username or password");
         }
 
-        if (!verifyPassword(loginDto.getPassword(), userExists.get().getPassword())) {
+        if (!verifyPassword(loginRequest.getPassword(), userExists.get().getPassword())) {
             throw new UnauthorizedException("Incorrect username or password");
         }
     }

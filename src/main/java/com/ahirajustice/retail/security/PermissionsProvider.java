@@ -11,12 +11,17 @@ public class PermissionsProvider {
 
     // User permissions
     public static Permission CAN_VIEW_USER = new Permission("CAN_VIEW_USER");
-    public static Permission CAN_VIEW_ALL_USERS = new Permission("CAN_VIEW_ALL_USERS", true);
+    public static Permission CAN_SEARCH_USERS = new Permission("CAN_SEARCH_USERS", true);
     public static Permission CAN_CREATE_USER = new Permission("CAN_CREATE_USER");
     public static Permission CAN_CREATE_ADMIN_USER = new Permission("CAN_CREATE_ADMIN_USER", true);
     public static Permission CAN_CREATE_SUPER_ADMIN_USER = new Permission("CAN_CREATE_SUPER_ADMIN_USER", true);
     public static Permission CAN_UPDATE_USER = new Permission("CAN_UPDATE_USER");
-    public static Permission CAN_UPDATE_ALL_USERS = new Permission("CAN_UPDATE_ALL_USERS", true);
+
+    // Client permissions
+    public static Permission CAN_VIEW_CLIENT = new Permission("CAN_VIEW_CLIENT", true);
+    public static Permission CAN_SEARCH_CLIENTS = new Permission("CAN_SEARCH_CLIENTS", true);
+    public static Permission CAN_CREATE_CLIENT = new Permission("CAN_CREATE_CLIENT", true);
+    public static Permission CAN_UPDATE_CLIENT = new Permission("CAN_UPDATE_CLIENT", true);
 
     // UserToken permissions
     public static Permission CAN_REQUEST_USER_TOKEN = new Permission("CAN_REQUEST_USER_TOKEN");
@@ -31,19 +36,22 @@ public class PermissionsProvider {
     public static Permission CAN_VIEW_ALL_ROLES = new Permission("CAN_VIEW_ALL_ROLES", true);
     public static Permission CAN_CREATE_ROLE = new Permission("CAN_CREATE_ROLE", true);
     public static Permission CAN_UPDATE_ROLE = new Permission("CAN_UPDATE_ROLE", true);
-    public static Permission CAN_UPDATE_ALL_ROLES = new Permission("CAN_UPDATE_ALL_ROLES", true);
 
     public static Set<Permission> getAllPermissions() {
-        Set<Permission> permissions = new HashSet<Permission>();
+        Set<Permission> permissions = new HashSet<>();
 
         // User permissions
         permissions.add(CAN_VIEW_USER);
-        permissions.add(CAN_VIEW_ALL_USERS);
+        permissions.add(CAN_SEARCH_USERS);
         permissions.add(CAN_CREATE_USER);
         permissions.add(CAN_CREATE_ADMIN_USER);
         permissions.add(CAN_CREATE_SUPER_ADMIN_USER);
         permissions.add(CAN_UPDATE_USER);
-        permissions.add(CAN_UPDATE_ALL_USERS);
+
+        // Client permissions
+        permissions.add(CAN_VIEW_CLIENT);
+        permissions.add(CAN_SEARCH_CLIENTS);
+        permissions.add(CAN_CREATE_CLIENT);
 
         // UserToken permissions
         permissions.add(CAN_REQUEST_USER_TOKEN);
@@ -58,13 +66,12 @@ public class PermissionsProvider {
         permissions.add(CAN_VIEW_ALL_ROLES);
         permissions.add(CAN_CREATE_ROLE);
         permissions.add(CAN_UPDATE_ROLE);
-        permissions.add(CAN_UPDATE_ALL_ROLES);
 
         return permissions;
     }
 
     public static Set<Role> getDefaultRoles() {
-        Set<Role> roles = new HashSet<Role>();
+        Set<Role> roles = new HashSet<>();
 
         Role user = new Role(Roles.USER.name());
         user.setPermissions(getUserPermissions());
@@ -82,7 +89,7 @@ public class PermissionsProvider {
     }
 
     private static Set<Permission> getUserPermissions() {
-        Set<Permission> permissions = new HashSet<Permission>();
+        Set<Permission> permissions = new HashSet<>();
 
         // User permissions
         permissions.add(CAN_VIEW_USER);
@@ -97,18 +104,7 @@ public class PermissionsProvider {
     }
 
     private static Set<Permission> getAdminPermissions() {
-        Set<Permission> permissions = new HashSet<Permission>();
-
-        // User permissions
-        permissions.add(CAN_VIEW_USER);
-        permissions.add(CAN_CREATE_USER);
-        permissions.add(CAN_UPDATE_USER);
-
-        // UserToken permissions
-        permissions.add(CAN_REQUEST_USER_TOKEN);
-        permissions.add(CAN_VERIFY_USER_TOKEN);
-
-        return permissions;
+        return getUserPermissions();
     }
 
     private static Set<Permission> getSuperAdminPermissions() {

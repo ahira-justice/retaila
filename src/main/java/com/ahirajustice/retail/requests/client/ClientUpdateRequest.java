@@ -1,4 +1,4 @@
-package com.ahirajustice.retail.dtos.user;
+package com.ahirajustice.retail.requests.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateDto {
+public class ClientUpdateRequest {
 
-    private String email;
-    private String firstName;
-    private String lastName;
+    private String name;
+    private String adminEmail;
 
 }

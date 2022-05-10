@@ -17,7 +17,6 @@ public class ValidatorUtils<T> {
             ValidationException ex = new ValidationException(errors);
             throw ex;
         }
-
     }
 
 }

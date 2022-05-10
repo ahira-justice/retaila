@@ -1,14 +1,15 @@
 package com.ahirajustice.retail.services.usertoken;
 
-import com.ahirajustice.retail.dtos.usertoken.VerifyUserTokenRequest;
+import com.ahirajustice.retail.entities.User;
+import com.ahirajustice.retail.requests.usertoken.VerifyUserTokenRequest;
 import com.ahirajustice.retail.enums.UserTokenType;
 
 public interface UserTokenService {
 
-    String generateToken(long userId, UserTokenType tokenType, long validityInSecs);
+    String generateToken(User user, UserTokenType tokenType, long validityInSecs);
 
     void verifyToken(VerifyUserTokenRequest request);
 
-    void useToken(long userId, UserTokenType tokenType, String token);
+    void useToken(User user, UserTokenType tokenType, String token);
 
 }

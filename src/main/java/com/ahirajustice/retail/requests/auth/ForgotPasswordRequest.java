@@ -1,4 +1,4 @@
-package com.ahirajustice.retail.dtos.auth;
+package com.ahirajustice.retail.requests.auth;
 
 import lombok.Getter;
 import lombok.Setter;

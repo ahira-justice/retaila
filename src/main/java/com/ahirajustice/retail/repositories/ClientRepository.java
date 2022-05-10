@@ -1,15 +1,13 @@
 package com.ahirajustice.retail.repositories;
 
-import com.ahirajustice.retail.entities.User;
+import com.ahirajustice.retail.entities.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User> {
+public interface ClientRepository extends JpaRepository<Client, Long>, QuerydslPredicateExecutor<Client> {
 
-    Optional<User> findByUsername(String username);
+    boolean existsByName(String name);
 
 }

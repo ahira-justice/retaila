@@ -1,8 +1,8 @@
 package com.ahirajustice.retail.controllers;
 
-import com.ahirajustice.retail.dtos.auth.ForgotPasswordRequest;
-import com.ahirajustice.retail.dtos.auth.LoginDto;
-import com.ahirajustice.retail.dtos.auth.ResetPasswordRequest;
+import com.ahirajustice.retail.requests.auth.ForgotPasswordRequest;
+import com.ahirajustice.retail.requests.auth.LoginRequest;
+import com.ahirajustice.retail.requests.auth.ResetPasswordRequest;
 import com.ahirajustice.retail.services.auth.AuthService;
 import com.ahirajustice.retail.viewmodels.auth.LoginResponse;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
@@ -40,14 +40,15 @@ public class AuthController {
     )
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public LoginResponse login(@RequestBody LoginDto loginDto) {
-        return authService.login(loginDto);
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+        return authService.login(loginRequest);
     }
 
     @Operation(summary = "Forgot Password")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "204"),
+                    @ApiResponse(responseCode = "422", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationErrorResponse.class)) })
             }
     )
     @RequestMapping(path = "/forgot-password", method = RequestMethod.POST)

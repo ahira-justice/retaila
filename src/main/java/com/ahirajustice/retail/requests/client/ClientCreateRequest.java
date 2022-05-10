@@ -1,4 +1,4 @@
-package com.ahirajustice.retail.dtos.role;
+package com.ahirajustice.retail.requests.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,16 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleUpdateDto {
+public class ClientCreateRequest {
 
     private String name;
-    private List<Long> permissionIds;
+    private String adminEmail;
 
 }

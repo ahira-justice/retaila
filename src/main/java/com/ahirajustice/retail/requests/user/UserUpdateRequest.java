@@ -1,6 +1,5 @@
-package com.ahirajustice.retail.viewmodels.user;
+package com.ahirajustice.retail.requests.user;
 
-import com.ahirajustice.retail.viewmodels.BaseViewModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,11 +11,10 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserViewModel extends BaseViewModel {
+public class UserUpdateRequest {
 
     private String email;
     private String firstName;
     private String lastName;
-    private String role;
 
 }

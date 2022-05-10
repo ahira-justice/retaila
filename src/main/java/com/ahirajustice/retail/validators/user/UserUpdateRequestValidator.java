@@ -1,20 +1,20 @@
 package com.ahirajustice.retail.validators.user;
 
 import br.com.fluentvalidator.AbstractValidator;
-import com.ahirajustice.retail.dtos.user.UserUpdateDto;
+import com.ahirajustice.retail.requests.user.UserUpdateRequest;
 
 import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
 import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;
 
-public class UserUpdateDtoValidator extends AbstractValidator<UserUpdateDto> {
+public class UserUpdateRequestValidator extends AbstractValidator<UserUpdateRequest> {
 
     @Override
     public void rules() {
-        ruleFor(UserUpdateDto::getEmail)
+        ruleFor(UserUpdateRequest::getEmail)
                 .must(not(stringEmptyOrNull())).withMessage("email is required").withFieldName("email");
-        ruleFor(UserUpdateDto::getFirstName)
+        ruleFor(UserUpdateRequest::getFirstName)
                 .must(not(stringEmptyOrNull())).withMessage("firstName is required").withFieldName("firstName");
-        ruleFor(UserUpdateDto::getLastName)
+        ruleFor(UserUpdateRequest::getLastName)
                 .must(not(stringEmptyOrNull())).withMessage("lastName is required").withFieldName("lastName");
     }
 

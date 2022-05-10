@@ -1,26 +1,24 @@
 package com.ahirajustice.retail.services.user;
 
-import com.ahirajustice.retail.dtos.user.UserCreateDto;
-import com.ahirajustice.retail.dtos.user.UserUpdateDto;
 import com.ahirajustice.retail.entities.User;
+import com.ahirajustice.retail.queries.SearchUsersQuery;
+import com.ahirajustice.retail.requests.user.UserCreateRequest;
+import com.ahirajustice.retail.requests.user.UserUpdateRequest;
 import com.ahirajustice.retail.viewmodels.user.UserViewModel;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface UserService {
 
-    List<UserViewModel> getUsers();
+    Page<UserViewModel> searchUsers(SearchUsersQuery query);
 
     UserViewModel getUser(long id);
 
-    User verifyUserExists(long id);
-
     User verifyUserExists(String username);
 
-    UserViewModel createUser(UserCreateDto userDto);
+    UserViewModel createUser(UserCreateRequest request);
 
     UserViewModel setUserPassword(User user, String password);
 
-    UserViewModel updateUser(UserUpdateDto userDto, long id);
+    UserViewModel updateUser(UserUpdateRequest request, long id);
 
 }

@@ -1,4 +1,4 @@
-package com.ahirajustice.retail.dtos.auth;
+package com.ahirajustice.retail.requests.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,12 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginDto {
+public class UserCreateRequest {
 
     private String username;
+    private String email;
     private String password;
-    private int expires;
+    private String firstName;
+    private String lastName;
 
 }

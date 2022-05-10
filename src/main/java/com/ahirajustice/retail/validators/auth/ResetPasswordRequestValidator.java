@@ -1,7 +1,7 @@
 package com.ahirajustice.retail.validators.auth;
 
 import br.com.fluentvalidator.AbstractValidator;
-import com.ahirajustice.retail.dtos.auth.ResetPasswordRequest;
+import com.ahirajustice.retail.requests.auth.ResetPasswordRequest;
 
 import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
 import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;

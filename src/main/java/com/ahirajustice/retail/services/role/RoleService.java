@@ -1,7 +1,7 @@
 package com.ahirajustice.retail.services.role;
 
-import com.ahirajustice.retail.dtos.role.RoleCreateDto;
-import com.ahirajustice.retail.dtos.role.RoleUpdateDto;
+import com.ahirajustice.retail.requests.role.RoleCreateRequest;
+import com.ahirajustice.retail.requests.role.RoleUpdateRequest;
 import com.ahirajustice.retail.viewmodels.role.RoleViewModel;
 
 import java.util.List;
@@ -12,8 +12,8 @@ public interface RoleService {
 
     RoleViewModel getRole(long id);
 
-    RoleViewModel createRole(RoleCreateDto roleDto);
+    RoleViewModel createRole(RoleCreateRequest request);
 
-    RoleViewModel updateRole(RoleUpdateDto roleDto, long id);
+    RoleViewModel updateRole(RoleUpdateRequest request, long id);
 
 }

@@ -52,6 +52,10 @@ public class CommonHelper {
         return result;
     }
 
+    public static String generateRandomString(int length) {
+        return generateRandomString(length, "0123456789");
+    }
+
     public static String generateRandomString(int length, String alphabet) {
         Random random = new SecureRandom();
         StringBuilder returnValue = new StringBuilder(length);

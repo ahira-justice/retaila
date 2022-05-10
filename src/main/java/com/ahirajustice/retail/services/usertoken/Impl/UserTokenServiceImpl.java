@@ -1,7 +1,7 @@
 package com.ahirajustice.retail.services.usertoken.impl;
 
 import com.ahirajustice.retail.common.CommonHelper;
-import com.ahirajustice.retail.dtos.usertoken.VerifyUserTokenRequest;
+import com.ahirajustice.retail.requests.usertoken.VerifyUserTokenRequest;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.entities.UserToken;
 import com.ahirajustice.retail.enums.UserTokenType;
@@ -34,11 +34,10 @@ public class UserTokenServiceImpl implements UserTokenService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public String generateToken(long userId, UserTokenType tokenType, long expiryInSeconds) {
-        User user = userService.verifyUserExists(userId);
+    public String generateToken(User user, UserTokenType tokenType, long expiryInSeconds) {
         validateExpiry(expiryInSeconds);
 
-        deleteOldTokenIfExists(userId, tokenType);
+        deleteOldTokenIfExists(user, tokenType);
 
         String token = generateToken();
         log.info("Generated token for {}: {} ({})", user.getUsername(), token, tokenType);
@@ -64,21 +63,21 @@ public class UserTokenServiceImpl implements UserTokenService {
             throw new ValidationException("Invalid tokenType");
         }
 
-        verifyToken(user.getId(), UserTokenType.valueOf(request.getTokenType()), request.getToken());
+        verifyToken(user, UserTokenType.valueOf(request.getTokenType()), request.getToken());
     }
 
     @Override
-    public void useToken(long userId, UserTokenType tokenType, String token) {
-        boolean isValid = verifyToken(userId, tokenType, token);
+    public void useToken(User user, UserTokenType tokenType, String token) {
+        boolean isValid = verifyToken(user, tokenType, token);
         if (!isValid) {
             throw new ValidationException("Token does not match available token");
         }
 
-        userTokenRepository.deleteByUser_IdAndTokenType(userId, tokenType);
+        userTokenRepository.deleteByUserAndTokenType(user, tokenType);
     }
 
-    private boolean verifyToken(long userId, UserTokenType tokenType, String token) {
-        Optional<UserToken> userTokenExists = userTokenRepository.findFirstByUser_IdAndTokenType(userId, tokenType);
+    private boolean verifyToken(User user, UserTokenType tokenType, String token) {
+        Optional<UserToken> userTokenExists = userTokenRepository.findFirstByUserAndTokenType(user, tokenType);
 
         if (!userTokenExists.isPresent()) {
             throw new ValidationException(String.format("Token for token type: '%s' does not exist for given user", tokenType));
@@ -98,8 +97,8 @@ public class UserTokenServiceImpl implements UserTokenService {
             throw new IllegalArgumentException("Validity (in seconds) must be greater than 0");
     }
 
-    private void deleteOldTokenIfExists(long userId, UserTokenType tokenType) {
-        userTokenRepository.deleteByUser_IdAndTokenType(userId, tokenType);
+    private void deleteOldTokenIfExists(User user, UserTokenType tokenType) {
+        userTokenRepository.deleteByUserAndTokenType(user, tokenType);
     }
 
     private String generateToken() {

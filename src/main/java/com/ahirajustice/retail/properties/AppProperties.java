@@ -32,6 +32,18 @@ public class AppProperties {
     @Value("${app.config.user-token.keyspace}")
     private String userTokenKeyspace;
 
+    @Value("${app.config.client.identifier.length}")
+    private int clientIdentifierLength;
+
+    @Value("${app.config.client.identifier.keyspace}")
+    private String clientIdentifierKeyspace;
+
+    @Value("${app.config.client.secret.length}")
+    private int clientSecretLength;
+
+    @Value("${app.config.client.secret.keyspace}")
+    private String clientSecretKeyspace;
+
     @Value("${app.config.user-token.validity-in-seconds}")
     private int userTokenValidityInSeconds;
 

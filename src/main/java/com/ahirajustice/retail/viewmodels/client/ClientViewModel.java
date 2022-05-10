@@ -1,4 +1,4 @@
-package com.ahirajustice.retail.dtos.usertoken;
+package com.ahirajustice.retail.viewmodels.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,12 +11,11 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VerifyUserTokenRequest {
+public class ClientViewModel {
 
-    private String username;
-
-    private String tokenType;
-
-    private String token;
+    private String identifier;
+    private String name;
+    private String adminEmail;
+    private boolean isActive;
 
 }

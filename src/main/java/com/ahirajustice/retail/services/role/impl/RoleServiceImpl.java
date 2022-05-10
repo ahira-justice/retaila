@@ -1,7 +1,7 @@
 package com.ahirajustice.retail.services.role.impl;
 
-import com.ahirajustice.retail.dtos.role.RoleCreateDto;
-import com.ahirajustice.retail.dtos.role.RoleUpdateDto;
+import com.ahirajustice.retail.requests.role.RoleCreateRequest;
+import com.ahirajustice.retail.requests.role.RoleUpdateRequest;
 import com.ahirajustice.retail.entities.Permission;
 import com.ahirajustice.retail.entities.Role;
 import com.ahirajustice.retail.entities.User;
@@ -17,8 +17,8 @@ import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.services.role.RoleService;
 import com.ahirajustice.retail.services.user.CurrentUserService;
 import com.ahirajustice.retail.validators.ValidatorUtils;
-import com.ahirajustice.retail.validators.role.RoleCreateDtoValidator;
-import com.ahirajustice.retail.validators.role.RoleUpdateDtoValidator;
+import com.ahirajustice.retail.validators.role.RoleCreateRequestValidator;
+import com.ahirajustice.retail.validators.role.RoleUpdateRequestValidator;
 import com.ahirajustice.retail.viewmodels.role.RoleViewModel;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -74,37 +74,37 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleViewModel createRole(RoleCreateDto roleDto) {
-        ValidatorUtils<RoleCreateDto> validator = new ValidatorUtils<>();
-        validator.validate(new RoleCreateDtoValidator(), roleDto);
+    public RoleViewModel createRole(RoleCreateRequest request) {
+        ValidatorUtils<RoleCreateRequest> validator = new ValidatorUtils<>();
+        validator.validate(new RoleCreateRequestValidator(), request);
 
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_CREATE_ROLE)) {
             throw new ForbiddenException();
         }
 
         User currentUser = currentUserService.getCurrentUser();
-        if (roleDto.isSystem() && !currentUser.getRole().isSystem()){
+        if (request.isSystem() && !currentUser.getRole().isSystem()){
             throw new ForbiddenException(currentUser.getUsername());
         }
 
-        Optional<Role> roleExists = roleRepository.findByName(roleDto.getName());
+        Optional<Role> roleExists = roleRepository.findByName(request.getName());
 
         if (roleExists.isPresent()) {
-            throw new BadRequestException(String.format("Role with name: '%s' already exists", roleDto.getName()));
+            throw new BadRequestException(String.format("Role with name: '%s' already exists", request.getName()));
         }
 
         Set<Permission> permissions = new HashSet<>();
-        for (long permissionId : roleDto.getPermissionIds()) {
+        for (long permissionId : request.getPermissionIds()) {
             Permission permission = permissionService.verifyPermissionExists(permissionId);
 
-            if (!roleDto.isSystem() && permission.isSystem()){
+            if (!request.isSystem() && permission.isSystem()){
                 throw new BadRequestException("Cannot add system permission to non-system role");
             }
 
             permissions.add(permission);
         }
 
-        Role role = mappings.roleCreateDtoToRole(roleDto);
+        Role role = mappings.roleCreateRequestToRole(request);
         role.setPermissions(permissions);
 
         Role createdRole = roleRepository.save(role);
@@ -113,9 +113,9 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleViewModel updateRole(RoleUpdateDto roleDto, long id) {
-        ValidatorUtils<RoleUpdateDto> validator = new ValidatorUtils<>();
-        validator.validate(new RoleUpdateDtoValidator(), roleDto);
+    public RoleViewModel updateRole(RoleUpdateRequest request, long id) {
+        ValidatorUtils<RoleUpdateRequest> validator = new ValidatorUtils<>();
+        validator.validate(new RoleUpdateRequestValidator(), request);
 
         if (!permissionValidatorService.authorize(PermissionsProvider.CAN_UPDATE_ROLE)) {
             throw new ForbiddenException();
@@ -127,20 +127,20 @@ public class RoleServiceImpl implements RoleService {
             throw new NotFoundException(String.format("Role with id: '%d' does not exist", id));
         }
 
-        Optional<Role> roleNameExists = roleRepository.findByName(roleDto.getName());
+        Optional<Role> roleNameExists = roleRepository.findByName(request.getName());
 
         if (roleNameExists.isPresent() && roleNameExists.get().getId() != id){
-            throw new BadRequestException(String.format("Role with name: '%s' already exists", roleDto.getName()));
+            throw new BadRequestException(String.format("Role with name: '%s' already exists", request.getName()));
         }
 
         Role role = roleExists.get();
 
         Set<Permission> permissions = new HashSet<>();
-        for (long permissionId : roleDto.getPermissionIds()) {
+        for (long permissionId : request.getPermissionIds()) {
             permissions.add(permissionRepository.findById(permissionId).orElse(null));
         }
 
-        role.setName(roleDto.getName());
+        role.setName(request.getName());
         role.setPermissions(permissions);
 
         Role updatedRole = roleRepository.save(role);

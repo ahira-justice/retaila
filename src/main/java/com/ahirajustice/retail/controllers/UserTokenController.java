@@ -1,6 +1,6 @@
 package com.ahirajustice.retail.controllers;
 
-import com.ahirajustice.retail.dtos.usertoken.VerifyUserTokenRequest;
+import com.ahirajustice.retail.requests.usertoken.VerifyUserTokenRequest;
 import com.ahirajustice.retail.services.usertoken.UserTokenService;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.ahirajustice.retail.viewmodels.error.ValidationErrorResponse;
