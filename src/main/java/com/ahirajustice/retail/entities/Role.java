@@ -8,12 +8,9 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -24,17 +21,15 @@ import java.util.Set;
 @Entity(name = "roles")
 public class Role extends BaseEntity {
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(nullable = false)
     private boolean isSystem;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name = "roles_permissions", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    private Set<Permission> permissions = new HashSet<>();
-
-    @OneToMany(mappedBy = "role")
-    private Set<User> users = new HashSet<>();
+    private Set<Permission> permissions;
 
     public Role(String name) {
         this.name = name;

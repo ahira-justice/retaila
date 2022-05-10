@@ -17,11 +17,10 @@ import javax.persistence.Entity;
 @Entity(name = "client")
 public class Client extends BaseEntity {
 
-
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String identifier;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)

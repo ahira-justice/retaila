@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -40,8 +39,8 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(nullable = false)
     private Role role;
 
     @OneToMany(mappedBy = "user")
