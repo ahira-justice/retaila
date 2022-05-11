@@ -30,6 +30,8 @@ springdoc:
 
 app:
   config:
+    email-service:
+      selected: logged
     access-token-expire-minutes: ${env.ACCESS_TOKEN_EXPIRE_MINUTES}
     secret-key: ${env.SECRET_KEY}
     superuser:

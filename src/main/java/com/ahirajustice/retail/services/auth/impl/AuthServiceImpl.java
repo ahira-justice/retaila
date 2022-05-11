@@ -1,18 +1,17 @@
 package com.ahirajustice.retail.services.auth.impl;
 
 import com.ahirajustice.retail.common.CommonHelper;
-import com.ahirajustice.retail.config.SpringApplicationContext;
 import com.ahirajustice.retail.constants.SecurityConstants;
 import com.ahirajustice.retail.dtos.auth.AuthToken;
-import com.ahirajustice.retail.requests.auth.ForgotPasswordRequest;
-import com.ahirajustice.retail.requests.auth.LoginRequest;
-import com.ahirajustice.retail.requests.auth.ResetPasswordRequest;
 import com.ahirajustice.retail.entities.User;
 import com.ahirajustice.retail.enums.TimeFactor;
 import com.ahirajustice.retail.enums.UserTokenType;
 import com.ahirajustice.retail.exceptions.UnauthorizedException;
 import com.ahirajustice.retail.properties.AppProperties;
 import com.ahirajustice.retail.repositories.UserRepository;
+import com.ahirajustice.retail.requests.auth.ForgotPasswordRequest;
+import com.ahirajustice.retail.requests.auth.LoginRequest;
+import com.ahirajustice.retail.requests.auth.ResetPasswordRequest;
 import com.ahirajustice.retail.services.auth.AuthService;
 import com.ahirajustice.retail.services.user.UserService;
 import com.ahirajustice.retail.services.usertoken.UserTokenMailingService;
@@ -71,8 +70,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthToken decodeJwt(String token) {
         AuthToken authToken = new AuthToken();
-
-        AppProperties appProperties = (AppProperties) SpringApplicationContext.getBean("appConfig");
 
         try{
             Claims claims = Jwts.parser().setSigningKey(appProperties.getSecretKey()).parseClaimsJws(token).getBody();

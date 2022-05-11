@@ -2,6 +2,7 @@ package com.ahirajustice.retail.services.client.impl;
 
 import com.ahirajustice.retail.common.CommonHelper;
 import com.ahirajustice.retail.entities.Client;
+import com.ahirajustice.retail.enums.EmailType;
 import com.ahirajustice.retail.exceptions.BadRequestException;
 import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.NotFoundException;
@@ -13,6 +14,8 @@ import com.ahirajustice.retail.requests.client.ClientCreateRequest;
 import com.ahirajustice.retail.requests.client.ClientUpdateRequest;
 import com.ahirajustice.retail.security.PermissionsProvider;
 import com.ahirajustice.retail.services.client.ClientService;
+import com.ahirajustice.retail.services.email.EmailGenerationStrategy;
+import com.ahirajustice.retail.services.email.EmailService;
 import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.validators.ValidatorUtils;
 import com.ahirajustice.retail.validators.client.ClientCreateRequestValidator;
@@ -24,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,6 +38,8 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final PermissionValidatorService permissionValidatorService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+    private final List<EmailGenerationStrategy> emailGenerationStrategies;
 
     private final ClientMappings mappings = Mappers.getMapper(ClientMappings.class);
 
@@ -83,6 +89,10 @@ public class ClientServiceImpl implements ClientService {
         client.setIdentifier(identifier);
         client.setSecret(passwordEncoder.encode(secret));
         client.setActive(true);
+
+        emailGenerationStrategies.stream()
+                .filter(x -> x.canApply(EmailType.CLIENT_CREATED))
+                .forEach(x -> emailService.sendEmail(x.generateEmail(client, secret)));
 
         return mappings.clientToClientViewModel(clientRepository.save(client));
     }

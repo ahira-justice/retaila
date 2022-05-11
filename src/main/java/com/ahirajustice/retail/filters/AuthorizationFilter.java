@@ -3,12 +3,15 @@ package com.ahirajustice.retail.filters;
 import com.ahirajustice.retail.config.SpringApplicationContext;
 import com.ahirajustice.retail.constants.SecurityConstants;
 import com.ahirajustice.retail.dtos.auth.AuthToken;
+import com.ahirajustice.retail.entities.Client;
 import com.ahirajustice.retail.exceptions.UnauthorizedException;
+import com.ahirajustice.retail.repositories.ClientRepository;
 import com.ahirajustice.retail.repositories.UserRepository;
 import com.ahirajustice.retail.services.auth.AuthService;
 import com.ahirajustice.retail.viewmodels.error.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -20,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Instant;
+import java.util.Optional;
 
 public class AuthorizationFilter extends GenericFilterBean {
 
@@ -48,16 +52,29 @@ public class AuthorizationFilter extends GenericFilterBean {
                 return;
             }
 
-            if (!StringUtils.lowerCase(scheme).equals("bearer")) {
+            if (!StringUtils.lowerCase(scheme).equals("bearer") && !StringUtils.lowerCase(scheme).equals("basic")) {
                 writeErrorToResponse("Invalid authentication scheme", response);
                 return;
             }
 
-            AuthToken authToken = authService.decodeJwt(token);
+            if (StringUtils.lowerCase(scheme).equals("bearer")) {
+                AuthToken authToken = authService.decodeJwt(token);
 
-            if (!userExists(authToken) || isExpired(authToken)) {
-                writeErrorToResponse("Invalid or expired token", response);
-                return;
+                if (!userExists(authToken) || isExpired(authToken)) {
+                    writeErrorToResponse("Invalid or expired token", response);
+                    return;
+                }
+            }
+
+            if (StringUtils.lowerCase(scheme).equals("basic")) {
+                String identifier = token.split(":")[0];
+                String secret = token.split(":")[1];
+
+                Optional<Client> clientExists = getClient(identifier);
+                if (!clientExists.isPresent() || isSecretValid(clientExists.get(), secret)) {
+                    writeErrorToResponse("Invalid client identifier or secret", response);
+                    return;
+                }
             }
         }
 
@@ -88,6 +105,17 @@ public class AuthorizationFilter extends GenericFilterBean {
 
     private boolean isExpired(AuthToken token) {
         return Instant.now().isAfter(token.getExpiry().toInstant());
+    }
+
+    private Optional<Client> getClient(String identifier) {
+        ClientRepository clientRepository = (ClientRepository) SpringApplicationContext.getBean("clientRepository");
+        return clientRepository.findByIdentifier(identifier);
+    }
+
+
+    private boolean isSecretValid(Client client, String secret) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.matches(secret, client.getSecret());
     }
 
     private void writeErrorToResponse(String message, HttpServletResponse response) throws IOException {

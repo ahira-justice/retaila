@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "client")
+@Entity(name = "clients")
 public class Client extends BaseEntity {
 
     @Column(nullable = false, unique = true)

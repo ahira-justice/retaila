@@ -21,19 +21,19 @@ public class GlobalExceptionHandler {
 
         if (ex instanceof ApplicationDomainException) {
             return handleApplicationDomainException((ApplicationDomainException) ex);
-        } else if (ex instanceof NoHandlerFoundException) {
+        }
+        else if (ex instanceof NoHandlerFoundException) {
             NotFoundException result = new NotFoundException("Route does not exist");
-            return new ResponseEntity<ErrorResponse>(result.toErrorResponse(),
-                    HttpStatus.valueOf(result.getStatusCode()));
-        } else {
+            return new ResponseEntity<>(result.toErrorResponse(), HttpStatus.valueOf(result.getStatusCode()));
+        }
+        else {
             SystemErrorException result = new SystemErrorException();
-            return new ResponseEntity<ErrorResponse>(result.toErrorResponse(),
-                    HttpStatus.valueOf(result.getStatusCode()));
+            return new ResponseEntity<>(result.toErrorResponse(), HttpStatus.valueOf(result.getStatusCode()));
         }
     }
 
     private ResponseEntity<ErrorResponse> handleApplicationDomainException(ApplicationDomainException ex) {
-        return new ResponseEntity<ErrorResponse>(ex.toErrorResponse(), HttpStatus.valueOf(ex.getStatusCode()));
+        return new ResponseEntity<>(ex.toErrorResponse(), HttpStatus.valueOf(ex.getStatusCode()));
     }
 
 }
