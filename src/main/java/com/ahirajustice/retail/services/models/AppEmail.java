@@ -15,10 +15,10 @@ public class AppEmail {
     private String subject;
     private String message;
     private Map<String, Object> context = new HashMap<>();
+    private String from;
+    private List<String> to = new ArrayList<>();
     private List<String> cc = new ArrayList<>();
     private List<String> bcc = new ArrayList<>();
-    private List<String> to = new ArrayList<>();
-    private List<String> from = new ArrayList<>();
     private List<Attachment> attachments = new ArrayList<>();
 
     public void addAttachment(Attachment attachment) {
@@ -41,8 +41,8 @@ public class AppEmail {
         to.addAll(Arrays.asList(emailAddresses));
     }
 
-    public void addFrom(String... emailAddresses) {
-        from.addAll(Arrays.asList(emailAddresses));
+    public void addFrom(String emailAddress) {
+        from = emailAddress;
     }
 
 }

@@ -4,19 +4,20 @@ import com.ahirajustice.retail.exceptions.ConfigurationException;
 import com.ahirajustice.retail.exceptions.SystemErrorException;
 import com.ahirajustice.retail.services.email.EmailService;
 import com.ahirajustice.retail.services.models.AppEmail;
+import com.ahirajustice.retail.services.models.Attachment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -53,25 +54,45 @@ public class MailGunEmailServiceImpl implements EmailService {
         log.info("Sending Email...");
 
         try {
-            MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
+            MultipartBodyBuilder builder = new MultipartBodyBuilder();
 
-            request.add("template", appEmail.getTemplateId());
-            request.add("subject", appEmail.getSubject());
-            request.addAll("from", appEmail.getFrom());
-            request.addAll("to", appEmail.getTo());
-            request.add("h:X-Mailgun-Variables", objectMapper.writeValueAsString(appEmail.getContext()));
+            builder.part("template", appEmail.getTemplateId());
+            builder.part("subject", appEmail.getSubject());
+            builder.part("from", appEmail.getFrom());
+            builder.part("to", String.join(",", appEmail.getTo()));
+            builder.part("cc", String.join(",", appEmail.getCc()));
+            builder.part("bcc", String.join(",", appEmail.getBcc()));
+            builder.part("h:X-Mailgun-Variables", objectMapper.writeValueAsString(appEmail.getContext()));
+
+            for (Attachment attachment : appEmail.getAttachments()) {
+                builder.part(
+                            "attachment",
+                            new ByteArrayResource(attachment.getContent()), attachment.getType()
+                        )
+                        .header(
+                                "Content-Disposition",
+                                String.format(
+                                        "%s; name=%s; filename=%s",
+                                        attachment.getDisposition(),
+                                        attachment.getContentId(),
+                                        attachment.getFilename()
+                                )
+                        );
+            }
 
             String basicAuthCredential = Base64.getEncoder().encodeToString(String.format("api:%s", mailGunApiKey).getBytes());
             String authHeader = String.format("Basic %s", basicAuthCredential);
 
-            webClient.post()
+            String responseString = webClient.post()
                     .uri(new URI(String.format("%s/messages", mailGunBaseUrl)))
                     .header("Authorization", authHeader)
-                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                    .body(BodyInserters.fromFormData(request))
+                    .contentType(MediaType.MULTIPART_FORM_DATA)
+                    .body(BodyInserters.fromMultipartData(builder.build()))
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();
+
+            log.info(responseString);
         }
         catch (
                 JsonProcessingException |
@@ -83,6 +104,7 @@ public class MailGunEmailServiceImpl implements EmailService {
             throw new ConfigurationException("Invalid Email Server configuration");
         }
         catch (WebClientResponseException ex) {
+            log.error(ex.getResponseBodyAsString());
             log.error(ex.getMessage(), ex);
 
             throw new SystemErrorException();
