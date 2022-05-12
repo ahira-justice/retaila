@@ -30,8 +30,17 @@ springdoc:
 
 app:
   config:
+    web-client:
+      mail-gun:
+        base-url: ${env.MAIL_GUN_BASE_URL}
+        api-key: ${env.MAIL_GUN_API_KEY}
     email-service:
-      selected: logged
+      from: ${env.FROM_EMAIL_ADDRESS}
+      selected: mail-gun
+      template-ids:
+        client-created: ${env.CLIENT_CREATED_EMAIL_TEMPLATE}
+      subjects:
+        client-created: Welcome to Retaila
     access-token-expire-minutes: ${env.ACCESS_TOKEN_EXPIRE_MINUTES}
     secret-key: ${env.SECRET_KEY}
     superuser:
@@ -45,10 +54,10 @@ app:
       validity-in-seconds: 600
     client:
       identifier:
-        length: 20
+        length: 10
         keyspace: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
       secret:
-        length: 32
+        length: 24
         keyspace: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
     user-device:
       max-count: 3

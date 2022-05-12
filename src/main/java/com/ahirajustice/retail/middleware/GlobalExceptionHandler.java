@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception ex) {
-        log.info(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
 
         if (ex instanceof ApplicationDomainException) {
             return handleApplicationDomainException((ApplicationDomainException) ex);

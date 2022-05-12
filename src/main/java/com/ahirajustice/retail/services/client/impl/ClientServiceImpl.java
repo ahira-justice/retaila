@@ -14,7 +14,7 @@ import com.ahirajustice.retail.requests.client.ClientCreateRequest;
 import com.ahirajustice.retail.requests.client.ClientUpdateRequest;
 import com.ahirajustice.retail.security.PermissionsProvider;
 import com.ahirajustice.retail.services.client.ClientService;
-import com.ahirajustice.retail.services.email.EmailGenerationStrategy;
+import com.ahirajustice.retail.services.email.straegy.EmailGenerationStrategy;
 import com.ahirajustice.retail.services.email.EmailService;
 import com.ahirajustice.retail.services.permission.PermissionValidatorService;
 import com.ahirajustice.retail.validators.ValidatorUtils;
@@ -83,7 +83,7 @@ public class ClientServiceImpl implements ClientService {
 
         Client client = mappings.clientCreateRequestToClient(request);
 
-        String identifier = CommonHelper.generateRandomString(appProperties.getClientIdentifierLength(), appProperties.getClientIdentifierKeyspace());
+        String identifier = String.format("%s_%s", request.getName(), CommonHelper.generateRandomString(appProperties.getClientIdentifierLength(), appProperties.getClientIdentifierKeyspace()));
         String secret = CommonHelper.generateRandomString(appProperties.getClientSecretLength(), appProperties.getClientSecretKeyspace());
 
         client.setIdentifier(identifier);

@@ -12,6 +12,7 @@ import java.util.Map;
 public class AppEmail {
 
     private String templateId;
+    private String subject;
     private String message;
     private Map<String, Object> context = new HashMap<>();
     private List<String> cc = new ArrayList<>();
