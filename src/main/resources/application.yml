@@ -38,8 +38,10 @@ app:
       from: ${env.FROM_EMAIL_ADDRESS}
       selected: mail-gun
       template-ids:
+        reset-password: ${env.RESET_PASSWORD_EMAIL_TEMPLATE}
         client-created: ${env.CLIENT_CREATED_EMAIL_TEMPLATE}
       subjects:
+        reset-password: Retaila — Password Reset
         client-created: Welcome to Retaila
     access-token-expire-minutes: ${env.ACCESS_TOKEN_EXPIRE_MINUTES}
     secret-key: ${env.SECRET_KEY}

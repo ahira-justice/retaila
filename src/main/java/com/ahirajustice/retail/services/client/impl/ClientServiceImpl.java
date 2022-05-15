@@ -2,7 +2,6 @@ package com.ahirajustice.retail.services.client.impl;
 
 import com.ahirajustice.retail.common.CommonHelper;
 import com.ahirajustice.retail.entities.Client;
-import com.ahirajustice.retail.enums.EmailType;
 import com.ahirajustice.retail.exceptions.BadRequestException;
 import com.ahirajustice.retail.exceptions.ForbiddenException;
 import com.ahirajustice.retail.exceptions.NotFoundException;
@@ -91,7 +90,7 @@ public class ClientServiceImpl implements ClientService {
         client.setActive(true);
 
         emailGenerationStrategies.stream()
-                .filter(x -> x.canApply(EmailType.CLIENT_CREATED))
+                .filter(x -> x.canApply())
                 .forEach(x -> emailService.sendEmail(x.generateEmail(client, secret)));
 
         return mappings.clientToClientViewModel(clientRepository.save(client));

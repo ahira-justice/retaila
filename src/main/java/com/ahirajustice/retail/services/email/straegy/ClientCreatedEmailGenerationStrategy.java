@@ -19,8 +19,14 @@ public class ClientCreatedEmailGenerationStrategy implements EmailGenerationStra
     private String from;
 
     @Override
-    public boolean canApply(EmailType emailType) {
-        return EmailType.CLIENT_CREATED.equals(emailType);
+    public boolean canApply(Object... values) {
+        try {
+            EmailType emailType = (EmailType) values[0];
+            return EmailType.CLIENT_CREATED.equals(emailType);
+        }
+        catch (ClassCastException ex) {
+            throw new IllegalArgumentException(ex);
+        }
     }
 
     @Override

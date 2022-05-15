@@ -92,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
 
         String token = userTokenService.generateToken(user, UserTokenType.RESET_PASSWORD, appProperties.getUserTokenValidityInSeconds());
 
-        userTokenMailingService.sendOtpEmailToUser(token, user.getId());
+        userTokenMailingService.sendOtpEmailToUser(token, user, UserTokenType.RESET_PASSWORD);
     }
 
     @Override
