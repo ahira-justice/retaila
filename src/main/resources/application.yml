@@ -25,7 +25,7 @@ springdoc:
     path: /api/retail/index.html
     tagsSorter: alpha
     operationsSorter: method
-  packages-to-exclude: "com.ahirajustice.retail.entities,"
+  packages-to-exclude: "com.ahirajustice.retaila.entities,"
 
 
 app:
