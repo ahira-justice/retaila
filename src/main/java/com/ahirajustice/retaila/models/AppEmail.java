@@ -1,4 +1,4 @@
-package com.ahirajustice.retaila.services.models;
+package com.ahirajustice.retaila.models;
 
 import lombok.Data;
 

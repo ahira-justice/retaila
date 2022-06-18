@@ -1,7 +1,7 @@
 package com.ahirajustice.retaila.services.email.impl;
 
 import com.ahirajustice.retaila.services.email.EmailService;
-import com.ahirajustice.retaila.services.models.AppEmail;
+import com.ahirajustice.retaila.models.AppEmail;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

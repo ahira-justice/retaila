@@ -3,7 +3,7 @@ package com.ahirajustice.retaila.services.email.straegy;
 import com.ahirajustice.retaila.entities.User;
 import com.ahirajustice.retaila.enums.EmailType;
 import com.ahirajustice.retaila.enums.UserTokenType;
-import com.ahirajustice.retaila.services.models.AppEmail;
+import com.ahirajustice.retaila.models.AppEmail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
