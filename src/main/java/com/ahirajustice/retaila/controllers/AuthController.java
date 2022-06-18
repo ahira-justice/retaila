@@ -45,7 +45,7 @@ public class AuthController {
         return authService.login(request);
     }
 
-    @Operation(summary = "Login")
+    @Operation(summary = "External Login")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class)) }),
