@@ -1,7 +1,7 @@
 version: "3.4"
 
 services:
-  retail:
+  retaila:
     env_file:
       - .dockerenv
     ports:
